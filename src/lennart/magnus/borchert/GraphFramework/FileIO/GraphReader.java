@@ -16,15 +16,19 @@ import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
  */
 public class GraphReader {
 
-	//TODO write RegEx
-	private static String graphOptionsLine = "";
-	private static String graphDefinitionLine = "";
-	
+	//TODO test RegEx
+	private static String graphOptionsLine = "(#directed)?\\s*(#attributed)?\\s*(#weigthed)?";
+	private static String attribute = "(:-?\\d*)?";
+	private static String node = "[\\w_-]*";
+	private static String weight = "(::\\d)?";
+	private static String graphDefinitionLine = node + attribute + node + attribute + weight;
+
+
 	/**
 	 * 
-	 * @param file Data to be read
-	 * @return list filled with lines from the given file.
-	 * @throws FileFormatException in case the given file didn't comply with the used format.
+	 * @param file to be read
+	 * @return list filled with individual lines from the given file.
+	 * @throws FileFormatException in case the given file didn't comply with the GKAGraph-format.
 	 */
 	public List<String> readFile(String file) throws FileFormatException{
 		boolean correctFormat = true;

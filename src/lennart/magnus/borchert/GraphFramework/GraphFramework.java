@@ -9,8 +9,8 @@ public class GraphFramework {
 	
 	public static void main(String[] args){
 		
-		for (String string : args) {
-			_parser.parse(string);
+		for (String file : args) {
+			_parser.parse(file);
 		}
 	}
 }

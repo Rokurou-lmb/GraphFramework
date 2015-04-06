@@ -38,6 +38,10 @@ public class GraphParser {
 		directedGraph = optionsLine.contains(directed);
 		attributedGraph = optionsLine.contains(attributed);
 		weightedGraph = optionsLine.contains(weighted);
+
+		if (directedGraph || weightedGraph || attributedGraph) {//If the first line isn't already defining the Graph we don't need to read it again.
+			i++;
+		}
 		DefaultWeightedEdge edge;
 		DefaultWeightedEdge invertedEdge;
 

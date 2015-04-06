@@ -10,7 +10,8 @@ import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 
 /**
  * This Reader is used to verify that a given file was using the correct format and
- * translate the file into an easy to work with list.
+ * translate the file into an easy to work with list, 
+ * cleaned of unusable blank lines and unnessecary whitespace characters.
  * 
  * @author Lenno
  */
@@ -18,10 +19,10 @@ public class GraphReader {
 
 	//TODO test RegEx
 	private static String graphOptionsLine = "(#directed)?\\s*(#attributed)?\\s*(#weigthed)?";
-	private static String attribute = "(:-?\\d*)?";
-	private static String node = "[\\w_-]*";
+	private static String attribute = "(:-?\\d*)?\\s*";
+	private static String node = "[\\w_-]*\\s*";
 	private static String weight = "(::\\d)?";
-	private static String graphDefinitionLine = node + attribute + node + attribute + weight;
+	private static String graphDefinitionLine = node + attribute + "," + "\\s*" + node + attribute + weight;
 
 
 	/**
@@ -43,7 +44,10 @@ public class GraphReader {
 				if (!line.matches(graphDefinitionLine)) {
 					correctFormat = false;
 				}
-				lines.add(line);
+				if (!line.matches("\\s*")) {
+					line.replaceAll("\\s", "");
+					lines.add(line);	
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("Es gab leider einen Fehler beim lesen der Datei, bitte überprüfen sie den Dateipfad.");

@@ -19,15 +19,16 @@ import org.jgrapht.graph.WeightedMultigraph;
  */
 public class GraphParser {
 
-	private static String graphOptionsLine = "(#directed)?\\s*(#attributed)?\\s*(#weigthed)?";
+	private static String graphOptionsLine = "(#directed)?(#attributed)?(#weigthed)?";
 	private static String directed = "#directed";
 	private static String attributed = "#attributed";
 	private static String weighted = "#weighted";
 	private boolean attributedGraph = false;
 
-	public void parse(String file) {
+	public Graph parse(String file) {
 		// TODO finish parser
-
+		Graph<Vertex, DefaultEdge> graph;
+		
 		GraphReader fileReader = new GraphReader();
 		List<String> lines = null;
 		try {
@@ -35,8 +36,9 @@ public class GraphParser {
 		} catch (FileFormatException e) {
 			// TODO: handle exception
 		}
-		String optionsLine = lines.get(0);
-		
+		int i = 0;
+		String optionsLine = lines.get(i);
+
 		attributedGraph = optionsLine.contains(attributed);
 		if (optionsLine.contains(directed)) {
 			if (optionsLine.contains(weighted)) {
@@ -44,11 +46,24 @@ public class GraphParser {
 			}else {
 				Graph<Vertex, DefaultEdge> graph = new DirectedMultigraph<Vertex, DefaultEdge>(DefaultEdge.class);
 			}
+			i++;
 		}else if(optionsLine.contains(weighted)){
 			Graph<Vertex, DefaultWeightedEdge> graph = new WeightedMultigraph<Vertex, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+			i++;
 		}else{
 			Graph<Vertex, DefaultEdge> graph = new Multigraph<Vertex, DefaultEdge>(DefaultEdge.class);
 		}
-	}
+		for (; i < lines.size(); i++) {
+			String line = lines.get(i);
+			String[] vertices = line.split(",");
 
+			String[] values = vertices[0].split(":");
+			Vertex source = new Vertex(values[0], Integer.parseInt(values[1]));
+			values = vertices[1].split(":");
+			Vertex target = new Vertex(values[0], Integer.parseInt(values[1]));
+
+			graph.addVertex(source);
+		}
+		return graph;
+	}
 }

@@ -31,4 +31,12 @@ public class Vertex {
 	public String getIdentifier(){
 		return identifier;
 	}
+	
+	public boolean equals(Vertex otherVertex){
+		return otherVertex.getIdentifier().equals(identifier);
+	}
+	
+	public int hashCode(){
+		return identifier.hashCode();
+	}
 }

@@ -18,10 +18,10 @@ import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 public class GraphReader {
 
 	//TODO test RegEx
-	private static String graphOptionsLine = "(#directed)?\\s*(#attributed)?\\s*(#weigthed)?";
-	private static String attribute = "(:-?\\d*)?\\s*";
-	private static String node = "[\\w_-]*\\s*";
-	private static String weight = "(::\\d)?";
+	private static String graphOptionsLine = "(#directed)?\\s*(#attributed)?\\s*(#weighted)?";
+	private static String attribute = "(:-?\\d+)?\\s*";
+	private static String node = "[^\\s,:]+\\s*";
+	private static String weight = "(::-?\\d+)?\\s*";
 	private static String graphDefinitionLine = node + attribute + "," + "\\s*" + node + attribute + weight;
 
 
@@ -41,12 +41,12 @@ public class GraphReader {
 				lines.add(line);
 			}
 			while (correctFormat && ((line = br.readLine()) != null)) {
-				if (!line.matches(graphDefinitionLine)) {
-					correctFormat = false;
-				}
 				if (!line.matches("\\s*")) {
-					line.replaceAll("\\s", "");
-					lines.add(line);	
+					if (!line.matches(graphDefinitionLine)) {
+						correctFormat = false;
+					}
+					line = line.replaceAll("\\s", "");
+					lines.add(line);
 				}
 			}
 		} catch (IOException e) {

@@ -21,7 +21,7 @@ public class GraphParser {
 	private boolean attributedGraph = false;
 	private boolean weightedGraph = false;
 
-	public DirectedWeightedMultigraph<Vertex, DefaultWeightedEdge> parse(String file) {
+	public DirectedWeightedMultigraph<Vertex, DefaultWeightedEdge> parse(String file) throws FileFormatException {
 		// TODO test parser
 
 		GraphReader fileReader = new GraphReader();
@@ -29,7 +29,7 @@ public class GraphParser {
 		try {
 			lines = fileReader.readFile(file);
 		} catch (FileFormatException e) {
-			// TODO: handle exception
+			throw e;
 		}
 		int i = 0;
 		String optionsLine = lines.get(i);

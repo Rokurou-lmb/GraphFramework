@@ -1,6 +1,7 @@
 package lennart.magnus.borchert.GraphFramework;
 
 
+import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 
 public class GraphFramework {
@@ -10,7 +11,12 @@ public class GraphFramework {
 	public static void main(String[] args){
 		
 		for (String file : args) {
-			_parser.parse(file);
+			try {
+				_parser.parse(file);
+			} catch (FileFormatException e) {
+				System.out.println(e.getLocalizedMessage());
+			}
+			
 		}
 	}
 }

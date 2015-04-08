@@ -5,6 +5,7 @@ import java.util.List;
 import lennart.magnus.borchert.GraphFramework.Materialien.Vertex;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.DirectedPseudograph;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 
 /**
@@ -21,7 +22,8 @@ public class GraphParser {
 	private boolean attributedGraph = false;
 	private boolean weightedGraph = false;
 
-	public DirectedWeightedMultigraph<Vertex, DefaultWeightedEdge> parse(String file) throws FileFormatException {
+	public DirectedPseudograph<Vertex, DefaultWeightedEdge> parse(String file) throws FileFormatException {
+	//public DirectedWeightedMultigraph<Vertex, DefaultWeightedEdge> parse(String file) throws FileFormatException {
 		// TODO test parser
 
 		GraphReader fileReader = new GraphReader();
@@ -34,7 +36,8 @@ public class GraphParser {
 		int i = 0;
 		String optionsLine = lines.get(i);
 
-		DirectedWeightedMultigraph<Vertex, DefaultWeightedEdge> graph = new DirectedWeightedMultigraph<>(DefaultWeightedEdge.class);
+		DirectedPseudograph<Vertex, DefaultWeightedEdge> graph = new DirectedPseudograph<>(DefaultWeightedEdge.class);
+		//DirectedWeightedMultigraph<Vertex, DefaultWeightedEdge> graph = new DirectedWeightedMultigraph<>(DefaultWeightedEdge.class);
 		directedGraph = optionsLine.contains(directed);
 		attributedGraph = optionsLine.contains(attributed);
 		weightedGraph = optionsLine.contains(weighted);

@@ -9,7 +9,9 @@ public class GraphFramework {
 	private static GraphParser _parser = new GraphParser();
 	
 	public static void main(String[] args){
-		
+
+		//TODO create MainFrame -> start
+
 		for (String file : args) {
 			try {
 				_parser.parse(file);

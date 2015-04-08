@@ -1,17 +1,42 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
+
+import lennart.magnus.borchert.GraphFramework.GUI.main.listener.Listener;
+
+import java.io.File;
+
 public class MainFrame {
 
-    //TODO get files and make dropdown chooser
+    private MainFrameUI _ui;
 
+    private FileChooser fc;
 
-    //TODO add listener for dropdown
+    private GraphDisplayer gd;
 
+    public MainFrame(){
+        String dir = "D:\\GKAP\\GraphFramework";
+        fc = new FileChooser(getFiles(dir));
+        fc.addListener(() -> {
+            updateGraph();
+        });
+        gd = new GraphDisplayer();
+        _ui = new MainFrameUI(fc.getUI(),gd.getUI());
+    }
 
-    //TODO connect into mainframeui
+    private String[] getFiles(String path){
+        File dir = new File(path);
+        String[] files = new String[dir.listFiles().length];
+        int i = 0;
+        for(File f : dir.listFiles()){
+            files[i++] = f.toString();
+        }
+        return files;
+    }
 
-
-    //TODO on loadbutton read graphT and give it to the graph display object
+    private void updateGraph(){
+        //TODO use reader/parser to get a graph from file
+        //gd.paintGraph(graph);
+    }
 
 
 }

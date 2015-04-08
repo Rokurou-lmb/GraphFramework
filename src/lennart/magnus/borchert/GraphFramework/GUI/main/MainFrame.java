@@ -6,10 +6,11 @@ import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.GUI.main.listener.Listener;
 
 import java.io.File;
+import java.io.IOException;
 
 public class MainFrame {
 
-    private static String DIR = "D:\\GKAP\\GraphFramework\\graphs";
+    private String DIR = "";
 
     private MainFrameUI _ui;
 
@@ -20,6 +21,12 @@ public class MainFrame {
     private GraphParser parser;
 
     public MainFrame(){
+        try {
+            DIR = new File(".").getCanonicalPath()+"\\graphs";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         parser = new GraphParser();
 
         fc = new FileChooser(getFiles(DIR));

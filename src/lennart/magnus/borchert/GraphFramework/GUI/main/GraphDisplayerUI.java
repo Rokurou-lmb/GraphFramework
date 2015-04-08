@@ -1,7 +1,6 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 import org.jgraph.JGraph;
-import org.jgrapht.Graph;
 import org.jgrapht.ext.JGraphModelAdapter;
 
 import javax.swing.*;

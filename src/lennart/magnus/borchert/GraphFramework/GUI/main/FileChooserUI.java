@@ -1,6 +1,7 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by Gery on 08.04.2015.
@@ -12,7 +13,7 @@ public class FileChooserUI {
     private JComboBox<String> _files;
 
     public FileChooserUI(String[] files){
-        this._main = new JPanel();
+        this._main = new JPanel(new GridLayout());
         this._files = new JComboBox<String>(files);
         _main.add(_files);
 

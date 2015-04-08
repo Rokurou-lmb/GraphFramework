@@ -5,6 +5,9 @@ import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.GUI.main.MainFrame;
 
+import java.io.File;
+import java.io.IOException;
+
 public class GraphFramework {
 
 	private static GraphParser _parser = new GraphParser();

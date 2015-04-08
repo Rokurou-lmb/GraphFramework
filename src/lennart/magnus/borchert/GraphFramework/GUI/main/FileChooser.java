@@ -21,6 +21,10 @@ public class FileChooser extends Talker{
         });
     }
 
+    public String getSelectedFile(){
+        return selectedFile;
+    }
+
     private void updateSelected(){
         selectedFile = _ui.getCombo().getSelectedItem().toString();
     }

@@ -14,10 +14,11 @@ public class MainFrame {
     private GraphDisplayer gd;
 
     public MainFrame(){
-        String dir = "D:\\GKAP\\GraphFramework";
+        String dir = "D:\\GKAP\\GraphFramework\\graphs";
         fc = new FileChooser(getFiles(dir));
         fc.addListener(() -> {
             updateGraph();
+            System.out.println(fc.getSelectedFile());
         });
         gd = new GraphDisplayer();
         _ui = new MainFrameUI(fc.getUI(),gd.getUI());
@@ -25,10 +26,11 @@ public class MainFrame {
 
     private String[] getFiles(String path){
         File dir = new File(path);
-        String[] files = new String[dir.listFiles().length];
-        int i = 0;
+        String[] files = new String[dir.listFiles().length+1];
+        files[0] = "--choose--";
+        int i = 1;
         for(File f : dir.listFiles()){
-            files[i++] = f.toString();
+            files[i++] = f.getName();
         }
         return files;
     }

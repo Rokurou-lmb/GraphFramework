@@ -27,7 +27,7 @@ public E getEdge(V sourceVertex, V targetVertex) {
 		if (_weighted) {
 			return super.getEdgeWeight(e);
 		}else{
-			return 1;
+			return 1.0;
 		}
 	}
 

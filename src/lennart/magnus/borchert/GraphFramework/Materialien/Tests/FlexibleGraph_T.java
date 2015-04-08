@@ -2,11 +2,6 @@ package lennart.magnus.borchert.GraphFramework.Materialien.Tests;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.io.IOException;
-
-import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
-import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.Materialien.FlexibleGraph;
 import lennart.magnus.borchert.GraphFramework.Materialien.Vertex;
 

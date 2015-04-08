@@ -39,4 +39,12 @@ public E getEdge(V sourceVertex, V targetVertex) {
 			return super.containsEdge(sourceVertex, targetVertex) || super.containsEdge(targetVertex, sourceVertex);
 		}
 	}
+	
+	public boolean isDirected(){
+		return _directed;
+	}
+	
+	public boolean isWeighted(){
+		return _weighted;
+	}
 }

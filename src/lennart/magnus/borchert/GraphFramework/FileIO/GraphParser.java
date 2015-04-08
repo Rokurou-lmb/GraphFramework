@@ -50,6 +50,7 @@ public class GraphParser {
 
 			DefaultWeightedEdge edge;
 			
+			//TODO: Secure this part against wrong format
 			if (attributedGraph) {
 				source = new Vertex(sourceValues[0], Integer.parseInt(sourceValues[1]));
 				target = new Vertex(targetValues[0], Integer.parseInt(targetValues[1]));

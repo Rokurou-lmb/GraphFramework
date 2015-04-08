@@ -27,7 +27,7 @@ public E getEdge(V sourceVertex, V targetVertex) {
 		if (_weighted) {
 			return super.getEdgeWeight(e);
 		}else{
-			return 1;
+			return 1.0;
 		}
 	}
 
@@ -38,5 +38,13 @@ public E getEdge(V sourceVertex, V targetVertex) {
 		}else{
 			return super.containsEdge(sourceVertex, targetVertex) || super.containsEdge(targetVertex, sourceVertex);
 		}
+	}
+	
+	public boolean isDirected(){
+		return _directed;
+	}
+	
+	public boolean isWeighted(){
+		return _weighted;
 	}
 }

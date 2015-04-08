@@ -9,6 +9,8 @@ public class MainFrameUI {
 
     public MainFrameUI(JPanel chooser,JPanel displayer){
         _frame = new JFrame("GKA");
+        _frame.setPreferredSize(new Dimension(1024,786));
+        displayer.setPreferredSize(new Dimension(1024, 786));
         _frame.getContentPane().add(chooser, BorderLayout.NORTH);
         _frame.getContentPane().add(displayer, BorderLayout.CENTER);
         _frame.pack();

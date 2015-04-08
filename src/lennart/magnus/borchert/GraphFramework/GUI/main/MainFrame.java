@@ -1,11 +1,15 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 
+import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
+import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.GUI.main.listener.Listener;
 
 import java.io.File;
 
 public class MainFrame {
+
+    private static String DIR = "D:\\GKAP\\GraphFramework\\graphs";
 
     private MainFrameUI _ui;
 
@@ -13,9 +17,12 @@ public class MainFrame {
 
     private GraphDisplayer gd;
 
+    private GraphParser parser;
+
     public MainFrame(){
-        String dir = "D:\\GKAP\\GraphFramework\\graphs";
-        fc = new FileChooser(getFiles(dir));
+        parser = new GraphParser();
+
+        fc = new FileChooser(getFiles(DIR));
         fc.addListener(() -> {
             updateGraph();
             System.out.println(fc.getSelectedFile());
@@ -37,7 +44,11 @@ public class MainFrame {
 
     private void updateGraph(){
         //TODO use reader/parser to get a graph from file
-        //gd.paintGraph(graph);
+        try {
+            gd.paintGraph(parser.parse(DIR+"\\"+fc.getSelectedFile()));
+        } catch (FileFormatException e) {
+            e.printStackTrace();
+        }
     }
 
 

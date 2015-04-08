@@ -2,11 +2,10 @@ package lennart.magnus.borchert.GraphFramework.FileIO;
 
 import java.util.List;
 
+import lennart.magnus.borchert.GraphFramework.Materialien.FlexibleGraph;
 import lennart.magnus.borchert.GraphFramework.Materialien.Vertex;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.DirectedPseudograph;
-import org.jgrapht.graph.DirectedWeightedMultigraph;
 
 /**
  * 
@@ -15,15 +14,11 @@ import org.jgrapht.graph.DirectedWeightedMultigraph;
  */
 public class GraphParser {
 
-	private static String directed = "#directed";
-	private static String attributed = "#attributed";
-	private static String weighted = "#weighted";
-	private boolean directedGraph = false;
-	private boolean attributedGraph = false;
-	private boolean weightedGraph = false;
+	private static final String _DIRECTED = "#directed";
+	private static final String _ATTRIBUTED = "#attributed";
+	private static final String _WEIGHTED = "#weighted";
 
-	public DirectedPseudograph<Vertex, DefaultWeightedEdge> parse(String file) throws FileFormatException {
-	//public DirectedWeightedMultigraph<Vertex, DefaultWeightedEdge> parse(String file) throws FileFormatException {
+	public FlexibleGraph<Vertex, DefaultWeightedEdge> parse(String file) throws FileFormatException {
 		// TODO test parser
 
 		GraphReader fileReader = new GraphReader();
@@ -36,17 +31,14 @@ public class GraphParser {
 		int i = 0;
 		String optionsLine = lines.get(i);
 
-		DirectedPseudograph<Vertex, DefaultWeightedEdge> graph = new DirectedPseudograph<>(DefaultWeightedEdge.class);
-		//DirectedWeightedMultigraph<Vertex, DefaultWeightedEdge> graph = new DirectedWeightedMultigraph<>(DefaultWeightedEdge.class);
-		directedGraph = optionsLine.contains(directed);
-		attributedGraph = optionsLine.contains(attributed);
-		weightedGraph = optionsLine.contains(weighted);
-
+		Boolean directedGraph = optionsLine.contains(_DIRECTED);
+		Boolean attributedGraph = optionsLine.contains(_ATTRIBUTED);
+		Boolean weightedGraph = optionsLine.contains(_WEIGHTED);
+		FlexibleGraph<Vertex, DefaultWeightedEdge> graph = new FlexibleGraph<>(directedGraph,weightedGraph,DefaultWeightedEdge.class);
+		
 		if (directedGraph || weightedGraph || attributedGraph) {//If the first line isn't already defining the Graph we don't need to read it again.
 			i++;
 		}
-		DefaultWeightedEdge edge;
-		DefaultWeightedEdge invertedEdge;
 
 		for (; i < lines.size(); i++) {
 			String line = lines.get(i);
@@ -55,7 +47,8 @@ public class GraphParser {
 			String[] targetValues = vertices[1].split(":");
 			Vertex source;
 			Vertex target;
-
+			DefaultWeightedEdge edge;
+			
 			if (attributedGraph) {
 				source = new Vertex(sourceValues[0], Integer.parseInt(sourceValues[1]));
 				target = new Vertex(targetValues[0], Integer.parseInt(targetValues[1]));
@@ -67,16 +60,7 @@ public class GraphParser {
 			graph.addVertex(source);
 			graph.addVertex(target);
 			edge = new DefaultWeightedEdge();
-			invertedEdge = new DefaultWeightedEdge();
-			if (weightedGraph) {
-				graph.setEdgeWeight(edge, Integer.parseInt(targetValues[targetValues.length-1]));
-				graph.setEdgeWeight(invertedEdge, Integer.parseInt(targetValues[targetValues.length-1]));
-			}
-
 			graph.addEdge(source, target, edge);
-			if (!directedGraph) {
-				graph.addEdge(target, source, invertedEdge);
-			}
 		}
 		return graph;
 	}

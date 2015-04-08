@@ -31,22 +31,23 @@ public class GraphParser {
 		int i = 0;
 		String optionsLine = lines.get(i);
 
-		Boolean directedGraph = optionsLine.contains(_DIRECTED);
-		Boolean attributedGraph = optionsLine.contains(_ATTRIBUTED);
-		Boolean weightedGraph = optionsLine.contains(_WEIGHTED);
+		boolean directedGraph = optionsLine.contains(_DIRECTED);
+		boolean attributedGraph = optionsLine.contains(_ATTRIBUTED);
+		boolean weightedGraph = optionsLine.contains(_WEIGHTED);
 		FlexibleGraph<Vertex, DefaultWeightedEdge> graph = new FlexibleGraph<>(directedGraph,weightedGraph,DefaultWeightedEdge.class);
 		
 		if (directedGraph || weightedGraph || attributedGraph) {//If the first line isn't already defining the Graph we don't need to read it again.
 			i++;
 		}
 
+		Vertex source;
+		Vertex target;
 		for (; i < lines.size(); i++) {
 			String line = lines.get(i);
 			String[] vertices = line.split(",");
 			String[] sourceValues = vertices[0].split(":");
 			String[] targetValues = vertices[1].split(":");
-			Vertex source;
-			Vertex target;
+
 			DefaultWeightedEdge edge;
 			
 			if (attributedGraph) {

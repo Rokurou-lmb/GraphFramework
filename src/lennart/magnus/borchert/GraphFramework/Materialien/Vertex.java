@@ -32,8 +32,14 @@ public class Vertex {
 		return identifier;
 	}
 	
-	public boolean equals(Vertex otherVertex){
-		return otherVertex.getIdentifier().equals(identifier);
+	public boolean equals(Object otherVertex){
+		if(otherVertex == null)
+			return false;
+		if (!(otherVertex instanceof Vertex)) 
+			return false;
+		if(otherVertex == this)
+			return true;
+		return ((Vertex)otherVertex).getIdentifier().equals(identifier);
 	}
 	
 	public int hashCode(){

@@ -8,12 +8,12 @@ package lennart.magnus.borchert.GraphFramework.Materialien;
  *
  */
 public class Vertex {
-	private String identifier;
-	private int attribute;
+	private String _identifier;
+	private int _attribute;
 	
 	public Vertex(String id, int attr){
-		attribute = attr;
-		identifier = id;
+		_attribute = attr;
+		_identifier = id;
 	}
 	
 	/**
@@ -21,7 +21,7 @@ public class Vertex {
 	 * @return this vertices attribute.
 	 */
 	public int getAttribute(){
-		return attribute;
+		return _attribute;
 	}
 	
 	/**
@@ -29,7 +29,7 @@ public class Vertex {
 	 * @return this vertices identifier.
 	 */
 	public String getIdentifier(){
-		return identifier;
+		return _identifier;
 	}
 	
 	public boolean equals(Object otherVertex){
@@ -39,10 +39,19 @@ public class Vertex {
 			return false;
 		if(otherVertex == this)
 			return true;
-		return ((Vertex)otherVertex).getIdentifier().equals(identifier);
+		return ((Vertex)otherVertex).getIdentifier().equals(_identifier);
 	}
 	
 	public int hashCode(){
-		return identifier.hashCode();
+		return _identifier.hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		if (_attribute != 0) {
+			return _identifier + ": " + _attribute;
+		}else{
+			return _identifier;
+		}
 	}
 }

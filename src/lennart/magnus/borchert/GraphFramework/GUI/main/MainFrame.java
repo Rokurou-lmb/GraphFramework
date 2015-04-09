@@ -8,6 +8,10 @@ import lennart.magnus.borchert.GraphFramework.GUI.main.listener.Listener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JButton;
+
+import org.jgrapht.Graph;
+
 public class MainFrame {
 
     private String DIR = "";
@@ -19,6 +23,8 @@ public class MainFrame {
     private GraphDisplayer gd;
 
     private GraphParser parser;
+    
+    private Graph graph;
 
     public MainFrame(){
         try {
@@ -35,7 +41,13 @@ public class MainFrame {
             System.out.println(fc.getSelectedFile());
         });
         gd = new GraphDisplayer();
-        _ui = new MainFrameUI(fc.getUI(),gd.getUI());
+        
+        JButton suchButton = new JButton("suche");
+        suchButton.addActionListener(e -> {
+        	
+        });
+        
+        _ui = new MainFrameUI(fc.getUI(),gd.getUI(),suchButton);
     }
 
     private String[] getFiles(String path){
@@ -52,7 +64,8 @@ public class MainFrame {
     private void updateGraph(){
         //TODO use reader/parser to get a graph from file
         try {
-            gd.paintGraph(parser.parse(DIR+"\\"+fc.getSelectedFile()));
+        	graph = parser.parse(DIR+"\\"+fc.getSelectedFile());
+            gd.paintGraph(graph);
         } catch (FileFormatException e) {
             e.printStackTrace();
         }

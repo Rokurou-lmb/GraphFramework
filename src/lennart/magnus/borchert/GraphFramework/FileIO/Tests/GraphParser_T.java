@@ -9,8 +9,8 @@ import java.util.Set;
 
 import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
-import lennart.magnus.borchert.GraphFramework.Materialien.FlexibleGraph;
-import lennart.magnus.borchert.GraphFramework.Materialien.Vertex;
+import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
+import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.junit.Before;

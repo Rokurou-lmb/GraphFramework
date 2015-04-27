@@ -9,9 +9,9 @@ import java.util.Map;
 import org.jgraph.JGraph;
 import org.jgraph.event.GraphSelectionEvent;
 import org.jgraph.event.GraphSelectionListener;
-import org.jgraph.graph.DefaultGraphCell;
 import org.jgrapht.Graph;
 import org.jgrapht.ext.JGraphModelAdapter;
+import org.jgrapht.graph.DefaultWeightedEdge;
 
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
@@ -19,7 +19,7 @@ import com.jgraph.layout.graph.JGraphSimpleLayout;
 
 import javax.swing.*;
 
-import lennart.magnus.borchert.GraphFramework.Materialien.Vertex;
+import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 /**
  * Created by Gery on 08.04.2015.
@@ -29,18 +29,18 @@ public class GraphDisplayer {
     private GraphDisplayerUI _ui;
     private JGraph _graph;
 
-    private JGraphModelAdapter adapter;
+    private JGraphModelAdapter<Vertex, DefaultWeightedEdge> adapter;
     
     private List<Object> selected;
 
     public GraphDisplayer(){
-    	selected = new ArrayList();
+    	selected = new ArrayList<Object>();
     	
         _ui = new GraphDisplayerUI();
        
     }
     
-    private void setGraph(JGraphModelAdapter adapter){
+    private void setGraph(JGraphModelAdapter<Vertex, DefaultWeightedEdge> adapter){
         if(_graph!=null)_ui.getMainPanel().remove(_graph);
         _graph = new JGraph(adapter);
         _graph.addGraphSelectionListener(new GraphSelectionListener() {
@@ -62,7 +62,7 @@ public class GraphDisplayer {
 //        layoutifier.setRadiusScaleFactor(1);
 //        layoutifier.run(jgf);
 
-        final Map nestedMap = jgf.createNestedMap(true, true);
+        final Map<Vertex, DefaultWeightedEdge> nestedMap = jgf.createNestedMap(true, true);
         _graph.getGraphLayoutCache().edit(nestedMap);
 
         _graph.getGraphLayoutCache().update();
@@ -71,8 +71,8 @@ public class GraphDisplayer {
         _ui.getMainPanel().updateUI();
     }
 
-    public void paintGraph(Graph graph){
-        adapter = new JGraphModelAdapter(graph);
+    public void paintGraph(Graph<Vertex, DefaultWeightedEdge> graph){
+        adapter = new JGraphModelAdapter<Vertex, DefaultWeightedEdge>(graph);
         setGraph(adapter);
     }
     

@@ -2,8 +2,8 @@ package lennart.magnus.borchert.GraphFramework.FileIO;
 
 import java.util.List;
 
-import lennart.magnus.borchert.GraphFramework.Materialien.FlexibleGraph;
-import lennart.magnus.borchert.GraphFramework.Materialien.Vertex;
+import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
+import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 

@@ -1,4 +1,4 @@
-package lennart.magnus.borchert.GraphFramework.Materialien;
+package lennart.magnus.borchert.GraphFramework.Materials;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DirectedWeightedPseudograph;

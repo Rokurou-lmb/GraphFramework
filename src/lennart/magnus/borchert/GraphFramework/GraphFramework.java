@@ -7,7 +7,7 @@ import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import lennart.magnus.borchert.GraphFramework.GUI.main.MainFrame;
-import lennart.magnus.borchert.GraphFramework.Materialien.Vertex;
+import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 public class GraphFramework {
 	

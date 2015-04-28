@@ -7,6 +7,9 @@ import org.jgrapht.Graph;
 
 public abstract class AbstractShortestPathAlgorithm<V, E> implements ShortestPathAlgorithm<V, E>{
 	
+	/**
+	 * Singleton instance of this class.
+	 */
 	protected AbstractShortestPathAlgorithm<V, E> _instance;
 
 	@Override
@@ -14,6 +17,11 @@ public abstract class AbstractShortestPathAlgorithm<V, E> implements ShortestPat
 		return InstanceExists();
 	}
 
+	/**
+	 * Templatemethod to be used within subclasses.
+	 * 
+	 * @return Singleton instance of the used subclass
+	 */
 	protected abstract AbstractShortestPathAlgorithm<V, E> InstanceExists();
 
 

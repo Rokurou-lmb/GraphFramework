@@ -31,20 +31,8 @@ public class Vertex {
 	public String getIdentifier(){
 		return _identifier;
 	}
+
 	
-	public boolean equals(Object otherVertex){
-		if(otherVertex == null)
-			return false;
-		if (!(otherVertex instanceof Vertex)) 
-			return false;
-		if(otherVertex == this)
-			return true;
-		return ((Vertex)otherVertex).getIdentifier().equals(_identifier);
-	}
-	
-	public int hashCode(){
-		return _identifier.hashCode();
-	}
 	
 	@Override
 	public String toString() {
@@ -53,5 +41,46 @@ public class Vertex {
 		}else{
 			return _identifier;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + _attribute;
+		result = prime * result
+				+ ((_identifier == null) ? 0 : _identifier.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Vertex)) {
+			return false;
+		}
+		Vertex other = (Vertex) obj;
+		if (_attribute != other._attribute) {
+			return false;
+		}
+		if (_identifier == null) {
+			if (other._identifier != null) {
+				return false;
+			}
+		} else if (!_identifier.equals(other._identifier)) {
+			return false;
+		}
+		return true;
 	}
 }

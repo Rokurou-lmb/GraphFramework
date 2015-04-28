@@ -9,8 +9,9 @@ import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JButton;
+import javax.swing.*;
 
+import org.jgraph.graph.DefaultGraphCell;
 import org.jgrapht.Graph;
 
 public class MainFrame {
@@ -39,13 +40,22 @@ public class MainFrame {
         fc = new FileChooser(getFiles(DIR));
         fc.addListener(() -> {
             updateGraph();
+
             System.out.println(fc.getSelectedFile());
         });
         gd = new GraphDisplayer();
         
         JButton suchButton = new JButton("suche");
         suchButton.addActionListener(e -> {
-        	
+            Object[] selectedElements = gd.getSelectedNodes();
+            if(selectedElements.length == 2) {
+                Vertex start = (Vertex)((DefaultGraphCell)selectedElements[0]).getUserObject();
+                Vertex end = (Vertex)((DefaultGraphCell)selectedElements[1]).getUserObject();
+                System.out.println(start.getIdentifier());
+                System.out.println(end.getIdentifier());
+            } else {
+                JOptionPane.showMessageDialog(this._ui.getFrame(), "Es kann nur der kürzeste Pfad zwischen zwei Knoten berechnet werden. Bitte wählen Sie genau zwei Knoten aus (Strg+Mausklick).", "Fehler", JOptionPane.ERROR_MESSAGE);
+            }
         });
         
         _ui = new MainFrameUI(fc.getUI(),gd.getUI(),suchButton);

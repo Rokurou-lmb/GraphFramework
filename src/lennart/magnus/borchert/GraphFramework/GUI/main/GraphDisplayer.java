@@ -9,6 +9,7 @@ import java.util.Map;
 import org.jgraph.JGraph;
 import org.jgraph.event.GraphSelectionEvent;
 import org.jgraph.event.GraphSelectionListener;
+import org.jgraph.graph.GraphSelectionModel;
 import org.jgrapht.Graph;
 import org.jgrapht.ext.JGraphModelAdapter;
 
@@ -79,6 +80,11 @@ public class GraphDisplayer {
 //    public List<Vertex> getSelected2(){
 //    	return selected;
 //    }
+
+    public Object[] getSelectedNodes(){
+        GraphSelectionModel selectionModel = _graph.getSelectionModel();
+        return selectionModel.getSelectionCells();
+    }
 
     public JPanel getUI(){ return _ui.getMainPanel(); }
 

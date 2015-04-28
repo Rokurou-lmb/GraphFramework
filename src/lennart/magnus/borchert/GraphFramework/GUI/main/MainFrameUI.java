@@ -22,4 +22,5 @@ public class MainFrameUI {
         _frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public JFrame getFrame(){return this._frame;}
 }

@@ -48,4 +48,5 @@ public class FlexibleGraph_T {
 		assertEquals(10, _graph1.getEdgeWeight(_graph1.getEdge(_v1, _v2)),0.1);
 		assertNotEquals(10, _graph2.getEdgeWeight(_graph2.getEdge(_v1, _v2)), 0.1);
 	}
+	//TODO: add tests for the getOutgoingEdges function
 }

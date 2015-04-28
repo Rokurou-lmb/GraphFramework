@@ -38,10 +38,25 @@ public class MainFrame {
         parser = new GraphParser();
 
         fc = new FileChooser(getFiles(DIR));
-        fc.addListener(() -> {
-            updateGraph();
+        fc.addListener(s -> {
+            switch (s){
+                default:
+                    updateGraph();
+                    break;
+                case "bfs":
+                    //TODO START BFS
+                    System.out.println("bfs start");
+                    break;
+                case "dij":
+                    //TODO START DIJKSTRA
+                    System.out.println("dijkstra start");
+                    break;
+                case "as":
+                    //TODO START A*
+                    System.out.println("A* start");
+                    break;
+            }
 
-            System.out.println(fc.getSelectedFile());
         });
         gd = new GraphDisplayer();
         
@@ -64,7 +79,7 @@ public class MainFrame {
     private String[] getFiles(String path){
         File dir = new File(path);
         String[] files = new String[dir.listFiles().length+1];
-        files[0] = "--choose--";
+        //files[0] = "--choose--";
         int i = 1;
         for(File f : dir.listFiles()){
             files[i++] = f.getName();

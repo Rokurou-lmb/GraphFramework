@@ -15,7 +15,7 @@ public class GraphDisplayerUI {
     public GraphDisplayerUI(){
 //        _graph = new JGraph();
         _main = new JPanel();
-        _main.setPreferredSize(new Dimension(1024, 786));
+        //_main.setPreferredSize(new Dimension(1024, 786));
 //        _graph.setPreferredSize(new Dimension(1024, 786));
 //        _main.add(_graph);
     }

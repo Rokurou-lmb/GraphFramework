@@ -14,9 +14,9 @@ public abstract class Talker {
         listeners.add(l);
     }
 
-    protected void talk(){
+    protected void talk(String s){
         for(Listener l : listeners){
-            l.act();
+            l.act(s);
         }
     }
 }

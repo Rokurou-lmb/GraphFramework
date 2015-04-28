@@ -44,17 +44,8 @@ public class GraphDisplayer {
     private void setGraph(JGraphModelAdapter<Vertex, Edge> adapter){
         if(_graph!=null)_ui.getMainPanel().remove(_graph);
         _graph = new JGraph(adapter);
-        _graph.addGraphSelectionListener(new GraphSelectionListener() {
-			
-			@Override
-			public void valueChanged(GraphSelectionEvent e) {
-				Object[] array = e.getCells();
-				selected = Arrays.asList(array);
-				System.out.println(selected.size());
-			}
-			
-		});
-        _graph.setPreferredSize(new Dimension(1024, 786));
+
+        //_graph.setPreferredSize(new Dimension(1024, 786));
 
         JGraphFacade jgf = new JGraphFacade(_graph);
         JGraphLayout layout = new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE);

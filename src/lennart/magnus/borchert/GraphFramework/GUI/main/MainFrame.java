@@ -3,6 +3,7 @@ package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
+import lennart.magnus.borchert.GraphFramework.Materials.Edge;
 import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 import java.io.File;
@@ -11,7 +12,6 @@ import java.io.IOException;
 import javax.swing.JButton;
 
 import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultWeightedEdge;
 
 public class MainFrame {
 
@@ -25,7 +25,7 @@ public class MainFrame {
 
     private GraphParser parser;
     
-    private Graph<Vertex, DefaultWeightedEdge> graph;
+    private Graph<Vertex, Edge> graph;
 
     public MainFrame(){
         try {

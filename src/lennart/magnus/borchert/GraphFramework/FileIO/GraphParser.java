@@ -2,10 +2,9 @@ package lennart.magnus.borchert.GraphFramework.FileIO;
 
 import java.util.List;
 
+import lennart.magnus.borchert.GraphFramework.Materials.Edge;
 import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
-
-import org.jgrapht.graph.DefaultWeightedEdge;
 
 /**
  * 
@@ -18,7 +17,7 @@ public class GraphParser {
 	private static final String _ATTRIBUTED = "#attributed";
 	private static final String _WEIGHTED = "#weighted";
 
-	public FlexibleGraph<Vertex, DefaultWeightedEdge> parse(String file) throws FileFormatException {
+	public FlexibleGraph<Vertex, Edge> parse(String file) throws FileFormatException {
 		// TODO test parser
 
 		GraphReader fileReader = new GraphReader();
@@ -34,7 +33,7 @@ public class GraphParser {
 		boolean directedGraph = optionsLine.contains(_DIRECTED);
 		boolean attributedGraph = optionsLine.contains(_ATTRIBUTED);
 		boolean weightedGraph = optionsLine.contains(_WEIGHTED);
-		FlexibleGraph<Vertex, DefaultWeightedEdge> graph = new FlexibleGraph<>(directedGraph,weightedGraph,DefaultWeightedEdge.class);
+		FlexibleGraph<Vertex, Edge> graph = new FlexibleGraph<>(directedGraph,weightedGraph,Edge.class);
 		
 		if (directedGraph || weightedGraph || attributedGraph) {//If the first line isn't already defining the Graph we don't need to read it again.
 			i++;
@@ -44,11 +43,12 @@ public class GraphParser {
 		Vertex target;
 		for (; i < lines.size(); i++) {
 			String line = lines.get(i);
+
 			String[] vertices = line.split(",");
 			String[] sourceValues = vertices[0].split(":");
 			String[] targetValues = vertices[1].split(":");
 
-			DefaultWeightedEdge edge;
+			Edge edge;
 			
 			//TODO: Secure this part against wrong format
 			if (attributedGraph) {
@@ -61,8 +61,12 @@ public class GraphParser {
 
 			graph.addVertex(source);
 			graph.addVertex(target);
-			edge = new DefaultWeightedEdge();
+			edge = new Edge();
 			graph.addEdge(source, target, edge);
+			if (weightedGraph) {
+				String edgeWeight = line.split("::")[1];
+				graph.setEdgeWeight(edge, Double.valueOf(edgeWeight));
+			}
 		}
 		return graph;
 	}

@@ -9,10 +9,10 @@ import java.util.Set;
 
 import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
+import lennart.magnus.borchert.GraphFramework.Materials.Edge;
 import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
-import org.jgrapht.graph.DefaultWeightedEdge;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class GraphParser_T {
 
 	private String _path;
 
-	private FlexibleGraph<Vertex, DefaultWeightedEdge> _graph1;
+	private FlexibleGraph<Vertex, Edge> _graph1;
 	
 	
 

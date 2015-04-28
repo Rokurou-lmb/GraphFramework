@@ -11,7 +11,6 @@ import org.jgraph.event.GraphSelectionEvent;
 import org.jgraph.event.GraphSelectionListener;
 import org.jgrapht.Graph;
 import org.jgrapht.ext.JGraphModelAdapter;
-import org.jgrapht.graph.DefaultWeightedEdge;
 
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
@@ -19,6 +18,7 @@ import com.jgraph.layout.graph.JGraphSimpleLayout;
 
 import javax.swing.*;
 
+import lennart.magnus.borchert.GraphFramework.Materials.Edge;
 import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 /**
@@ -29,7 +29,7 @@ public class GraphDisplayer {
     private GraphDisplayerUI _ui;
     private JGraph _graph;
 
-    private JGraphModelAdapter<Vertex, DefaultWeightedEdge> adapter;
+    private JGraphModelAdapter<Vertex, Edge> adapter;
     
     private List<Object> selected;
 
@@ -40,7 +40,7 @@ public class GraphDisplayer {
        
     }
     
-    private void setGraph(JGraphModelAdapter<Vertex, DefaultWeightedEdge> adapter){
+    private void setGraph(JGraphModelAdapter<Vertex, Edge> adapter){
         if(_graph!=null)_ui.getMainPanel().remove(_graph);
         _graph = new JGraph(adapter);
         _graph.addGraphSelectionListener(new GraphSelectionListener() {
@@ -62,7 +62,7 @@ public class GraphDisplayer {
 //        layoutifier.setRadiusScaleFactor(1);
 //        layoutifier.run(jgf);
 
-        final Map<Vertex, DefaultWeightedEdge> nestedMap = jgf.createNestedMap(true, true);
+        final Map<Vertex, Edge> nestedMap = jgf.createNestedMap(true, true);
         _graph.getGraphLayoutCache().edit(nestedMap);
 
         _graph.getGraphLayoutCache().update();
@@ -71,8 +71,8 @@ public class GraphDisplayer {
         _ui.getMainPanel().updateUI();
     }
 
-    public void paintGraph(Graph<Vertex, DefaultWeightedEdge> graph){
-        adapter = new JGraphModelAdapter<Vertex, DefaultWeightedEdge>(graph);
+    public void paintGraph(Graph<Vertex, Edge> graph){
+        adapter = new JGraphModelAdapter<Vertex, Edge>(graph);
         setGraph(adapter);
     }
     

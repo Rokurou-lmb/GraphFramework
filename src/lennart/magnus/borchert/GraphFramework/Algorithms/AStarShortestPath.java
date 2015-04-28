@@ -4,23 +4,34 @@ import java.util.List;
 
 import org.jgrapht.Graph;
 
-public class AStarShortestPath<V, E> implements ShortestPathAlgorithm<V, E>{
+public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>{
 	//TODO: implement A* Algorithm
-	private AStarShortestPath<V, E> _instance;
 	
 	private AStarShortestPath(){
 		
 	};
 	
 	public AStarShortestPath<V, E> getInstance(){
-		if (_instance == null) {
-			_instance = new AStarShortestPath<V, E>();
-		}
-		return _instance;
+		return (AStarShortestPath<V, E>)super.getInstance();
 	}
 
 	@Override
 	public List<V> findShortestPath(Graph<V, E> graph, V startVertex, V endVertex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected AbstractShortestPathAlgorithm<V, E> InstanceExists() {
+		if (super._instance == null) {
+			super._instance = new AStarShortestPath<>();
+		}
+		return super._instance;
+	}
+
+	@Override
+	protected List<V> shortestPathHelper(Graph<V, E> graph, V startVertex,
+			V endVertex) {
 		// TODO Auto-generated method stub
 		return null;
 	}

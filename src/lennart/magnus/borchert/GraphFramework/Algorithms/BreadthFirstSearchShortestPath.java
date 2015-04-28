@@ -4,27 +4,26 @@ import java.util.List;
 
 import org.jgrapht.Graph;
 
-public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>{
-	//TODO: implement Dijkstra Algorithm
+
+public class BreadthFirstSearchShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>{
 	
-	private DijkstraShortestPath(){
+	private BreadthFirstSearchShortestPath(){
 		
 	};
 	
-	public DijkstraShortestPath<V, E> getInstance(){
-		return (DijkstraShortestPath<V, E>)super.getInstance();
+	public BreadthFirstSearchShortestPath<V, E> getInstance(){
+		return (BreadthFirstSearchShortestPath<V, E>)super.getInstance();
 	}
 
 	@Override
 	public List<V> findShortestPath(Graph<V, E> graph, V startVertex, V endVertex) {
-		// TODO Auto-generated method stub
-		return null;
+		return super.findShortestPath(graph, startVertex, endVertex);
 	}
 
 	@Override
 	protected AbstractShortestPathAlgorithm<V, E> InstanceExists() {
 		if (super._instance == null) {
-			super._instance = new DijkstraShortestPath<>();
+			super._instance = new BreadthFirstSearchShortestPath<>();
 		}
 		return super._instance;
 	}

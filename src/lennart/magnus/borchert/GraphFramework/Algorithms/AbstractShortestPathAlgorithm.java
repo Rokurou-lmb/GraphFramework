@@ -20,7 +20,9 @@ public abstract class AbstractShortestPathAlgorithm<V, E> implements ShortestPat
 	@Override
 	public List<V> findShortestPath(Graph<V, E> graph, V startVertex, V endVertex){
 		List<V> path = new ArrayList<>();
-		path = shortestPathHelper(graph, startVertex, endVertex);
+		if(graph.containsVertex(startVertex) && graph.containsVertex(endVertex))
+			path = shortestPathHelper(graph, startVertex, endVertex);
+
 		return path;
 	}
 

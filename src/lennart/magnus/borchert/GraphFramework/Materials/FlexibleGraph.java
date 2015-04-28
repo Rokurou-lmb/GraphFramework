@@ -28,11 +28,8 @@ public class FlexibleGraph<V, E> extends DirectedWeightedPseudograph<V, E> imple
 
 	@Override
 	public double getEdgeWeight(E e) {
-		if (_weighted) {
-			return super.getEdgeWeight(e);
-		}else{
-			return 1.0;
-		}
+		return super.getEdgeWeight(e);
+
 	}
 
 	@Override

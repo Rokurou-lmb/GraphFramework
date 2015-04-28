@@ -29,18 +29,17 @@ public class FlexibleGraph<V, E> extends DirectedWeightedPseudograph<V, E> imple
 	@Override
 	public double getEdgeWeight(E e) {
 		return super.getEdgeWeight(e);
-
 	}
 
 	@Override
 	public boolean containsEdge(V sourceVertex, V targetVertex) {
 		if (_directed) {
-			return super.containsEdge(sourceVertex, targetVertex);		
+			return super.containsEdge(sourceVertex, targetVertex);
 		}else{
 			return super.containsEdge(sourceVertex, targetVertex) || super.containsEdge(targetVertex, sourceVertex);
 		}
 	}
-	
+
 	public Set<E> getOutgoingEdges(V vertex){
 		if(!_directed)
 			return super.edgesOf(vertex);
@@ -51,9 +50,22 @@ public class FlexibleGraph<V, E> extends DirectedWeightedPseudograph<V, E> imple
 			E edge = outgoingEdgeIterator.next();
 			if(!getEdgeSource(edge).equals(vertex))
 				outgoingEdgeIterator.remove();
-			
 		}
 		return outgoingEdges;
+	}
+	
+	public Set<E> getIncomingEdges(V vertex){
+		if(!_directed)
+			return super.edgesOf(vertex);
+		
+		Set<E> incomingEdges = super.edgesOf(vertex);
+		Iterator<E> incomingEdgeIterator = incomingEdges.iterator();
+		while(incomingEdgeIterator.hasNext()){
+			E edge = incomingEdgeIterator.next();
+			if(!getEdgeTarget(edge).equals(vertex))
+				incomingEdgeIterator.remove();
+		}
+		return incomingEdges;
 	}
 	
 	public boolean isDirected(){

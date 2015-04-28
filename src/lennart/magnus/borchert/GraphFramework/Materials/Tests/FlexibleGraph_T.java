@@ -38,7 +38,7 @@ public class FlexibleGraph_T {
 	public void testContainsEdge() {
 		assertTrue(_graph1.containsEdge(_v1, _v2));
 		assertFalse(_graph1.containsEdge(_v2, _v1));
-		
+
 		assertTrue(_graph2.containsEdge(_v1, _v2));
 		assertTrue(_graph2.containsEdge(_v2, _v1));
 	}
@@ -49,4 +49,14 @@ public class FlexibleGraph_T {
 		assertNotEquals(10, _graph2.getEdgeWeight(_graph2.getEdge(_v1, _v2)), 0.1);
 	}
 	//TODO: add tests for the getOutgoingEdges function
+
+	@Test
+	public void testGetOutgoingEdges(){
+		
+	}
+
+	@Test
+	public void testGetIncomingEdges(){
+		
+	}
 }

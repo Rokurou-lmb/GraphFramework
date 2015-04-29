@@ -22,23 +22,27 @@ public class BreadthFirstSearchShortestPath<V, E> extends AbstractShortestPathAl
 		queue.add(startVertex);
 
 		Map<V, Integer> distanceMap = new HashMap<>();
-		Integer distance = new Integer(1);
+		Integer distance = new Integer(0);
+		//TODO replace Map with Tree for easier backtracing
 		distanceMap.put(startVertex, distance);
 
 		boolean endVertexFound = false;
-		Set<E> currentEdges;
+		Set<E> outgoingEdges;
 		V sourceVertex;
 		V targetVertex = null;
 
 		while(!queue.isEmpty() && !endVertexFound){
 			sourceVertex = queue.poll();
 			//TODO: find a better way to solve the casting problem
-			currentEdges = ((FlexibleGraph<V, E>)graph).getOutgoingEdges(sourceVertex); 
-			for (E edge : currentEdges) {
+			outgoingEdges = ((FlexibleGraph<V, E>)graph).getOutgoingEdges(sourceVertex); 
+			Iterator<E> ougoingEdgesIterator = outgoingEdges.iterator();
+			while(ougoingEdgesIterator.hasNext() && !endVertexFound) {
+				E edge = ougoingEdgesIterator.next();
 				targetVertex = graph.getEdgeTarget(edge);
-				queue.add(targetVertex);
-				distanceMap.put(targetVertex, distanceMap.get(sourceVertex)+1);
-
+				if(!distanceMap.containsKey(targetVertex)){// Add newly found vertex to queue and distanceMap
+					queue.add(targetVertex);
+					distanceMap.put(targetVertex, distanceMap.get(sourceVertex)+1);
+				}
 				endVertexFound = targetVertex.equals(endVertex);
 			}
 		}
@@ -47,24 +51,31 @@ public class BreadthFirstSearchShortestPath<V, E> extends AbstractShortestPathAl
 		}
 		return path;
 	}
-	
+
+
 	private LinkedList<V> traceTakenPath(Graph<V, E> graph, Map<V, Integer> distanceMap, V startVertex, V endVertex){
 		LinkedList<V> path = new LinkedList<>();
 		V targetVertex = endVertex;
+		V sourceVertex;
 		int remainingPathElements = distanceMap.get(targetVertex);
+		boolean foundSource;
 
+		path.addFirst(targetVertex);
 		while(remainingPathElements > 0){
 			Set<E> incomingEdges = ((FlexibleGraph<V, E>)graph).getIncomingEdges(targetVertex);
 			Iterator<E> incomingEdgeIterator = incomingEdges.iterator();
-			boolean foundSource = false;
+			foundSource = false;
 			E edge;
 			while(incomingEdgeIterator.hasNext() && !foundSource) { //iterate over all incoming edges
 				edge = incomingEdgeIterator.next();
-				if(distanceMap.get(edge).equals(new Integer(remainingPathElements-1))){
-					foundSource = true;
-					targetVertex = graph.getEdgeSource(edge);
-					path.addFirst(targetVertex);
-					remainingPathElements--;
+				sourceVertex = graph.getEdgeSource(edge);
+				if(distanceMap.containsKey(sourceVertex)){
+					if(distanceMap.get(sourceVertex).equals(new Integer(remainingPathElements-1))){
+						foundSource = true;
+						targetVertex = graph.getEdgeSource(edge);
+						path.addFirst(targetVertex);
+						remainingPathElements--;
+					}
 				}
 			}
 		}

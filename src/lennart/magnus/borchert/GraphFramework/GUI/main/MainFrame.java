@@ -62,6 +62,18 @@ public class MainFrame {
                         //TODO START DIJKSTRA
                         System.out.println("dijkstra start");
                         DijkstraShortestPath dij = new DijkstraShortestPath();
+                        if(getTwoSelected()){
+                            List path = dij.findShortestPath(graph,start,end);
+                            if(path.size()==0) {
+                                JOptionPane.showMessageDialog(this._ui.getFrame(), "Kein Weg gefunden", "Fehler", JOptionPane.ERROR_MESSAGE);
+                                break;
+                            }
+                            String message = "";
+                            for (int i = path.size()-1; i>=0; i--){
+                                message += path.get(i)+" ";
+                            }
+                            JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+message, "Erfolg", JOptionPane.PLAIN_MESSAGE);
+                        }
                         break;
                     case "as":
                         //TODO START A*

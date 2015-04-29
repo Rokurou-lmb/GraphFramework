@@ -1,5 +1,6 @@
 package lennart.magnus.borchert.GraphFramework.Materials;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -40,30 +41,35 @@ public class FlexibleGraph<V, E> extends DirectedWeightedPseudograph<V, E> imple
 		}
 	}
 
+	/**
+	 * Generates a Set of all outgoing Edges for the given Vertex
+	 * @param vertex for which to get outgoing Edges
+	 * @return Set of all outgoing Edges
+	 */
 	public Set<E> getOutgoingEdges(V vertex){
-		if(!_directed)
-			return super.edgesOf(vertex);
-
-		Set<E> outgoingEdges = super.edgesOf(vertex);
-		Iterator<E> outgoingEdgeIterator = outgoingEdges.iterator();
-		while(outgoingEdgeIterator.hasNext()){
-			E edge = outgoingEdgeIterator.next();
-			if(!getEdgeSource(edge).equals(vertex))
-				outgoingEdgeIterator.remove();
+		Set<E> outgoingEdges = new HashSet<>();
+		outgoingEdges.addAll(super.edgesOf(vertex));
+		if(_directed){ //If the graph is directed remove all incoming edges from the edgeSet
+			Iterator<E> outgoingEdgeIterator = outgoingEdges.iterator();
+			while(outgoingEdgeIterator.hasNext()){
+				E edge = outgoingEdgeIterator.next();
+				if(!getEdgeSource(edge).equals(vertex))
+					outgoingEdgeIterator.remove();
+			}			
 		}
 		return outgoingEdges;
 	}
 	
 	public Set<E> getIncomingEdges(V vertex){
-		if(!_directed)
-			return super.edgesOf(vertex);
-		
-		Set<E> incomingEdges = super.edgesOf(vertex);
-		Iterator<E> incomingEdgeIterator = incomingEdges.iterator();
-		while(incomingEdgeIterator.hasNext()){
-			E edge = incomingEdgeIterator.next();
-			if(!getEdgeTarget(edge).equals(vertex))
-				incomingEdgeIterator.remove();
+		Set<E> incomingEdges = new HashSet<>();
+		incomingEdges.addAll(super.edgesOf(vertex));
+		if(_directed){ //If the graph is directed remove all outgoing edges from the edgeSet
+			Iterator<E> incomingEdgeIterator = incomingEdges.iterator();
+			while(incomingEdgeIterator.hasNext()){
+				E edge = incomingEdgeIterator.next();
+				if(!getEdgeTarget(edge).equals(vertex))
+					incomingEdgeIterator.remove();
+			}
 		}
 		return incomingEdges;
 	}

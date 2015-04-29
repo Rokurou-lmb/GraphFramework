@@ -65,13 +65,13 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 		if(aStarTable.size()>0&&aStarTable.get(endVertex).isOk()){
 			//find way back and add to path
 			AStarData data = aStarTable.get(endVertex);
-			path.add(endVertex);
+			path.add(0,endVertex);
 			while(aStarTable.get(startVertex).isOk()){
 				if(data.getPre()==startVertex){
-					path.add(startVertex);
+					if(!path.contains(startVertex))path.add(0,startVertex);
 					aStarTable.get(startVertex).setOk(false);
 				} else {
-					path.add((V)data.getPre());
+					path.add(0,(V)data.getPre());
 					data = aStarTable.get(data.getPre());
 				}
 			}

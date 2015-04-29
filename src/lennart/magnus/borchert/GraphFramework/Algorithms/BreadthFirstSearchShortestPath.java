@@ -53,6 +53,16 @@ public class BreadthFirstSearchShortestPath<V, E> extends AbstractShortestPathAl
 	}
 
 
+	/**
+	 * Traces the shortest path back from the endVertex to the startVertex, using the filled distanceMap, 
+	 * created by the BreadthFirstSearchShortestPath implementation.
+	 * 
+	 * @param graph 
+	 * @param distanceMap 
+	 * @param startVertex 
+	 * @param endVertex 
+	 * @return 
+	 */
 	private LinkedList<V> traceTakenPath(Graph<V, E> graph, Map<V, Integer> distanceMap, V startVertex, V endVertex){
 		LinkedList<V> path = new LinkedList<>();
 		V targetVertex = endVertex;

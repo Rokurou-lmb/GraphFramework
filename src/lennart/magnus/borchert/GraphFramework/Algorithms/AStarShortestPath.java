@@ -46,12 +46,12 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 					AStarData mnext = aStarTable.get(targetVertex);
 					double d = 1;
 					if(((Edge)edge).toString().length()>0)
-						d = Double.valueOf(((Edge)edge).toString())+prefData.getValue().getD();
+						d = Double.valueOf(((Edge)edge).toString());
 					//System.out.println(" -> "+d);
 					//update data
 					if(!mnext.isOk()&&mnext.getD()>d){
 						mnext.setPre((Vertex)prefData.getKey());
-						mnext.setD(d);
+						mnext.setD(d+prefData.getValue().getD());
 					}
 				}
 			}

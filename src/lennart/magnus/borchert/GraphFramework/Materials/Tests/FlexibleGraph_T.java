@@ -30,8 +30,7 @@ public class FlexibleGraph_T {
 
 		_graph2.addVertex(_v1);
 		_graph2.addVertex(_v2);
-		DefaultWeightedEdge edge2 = (DefaultWeightedEdge)_graph2.addEdge(_v1, _v2);
-		_graph2.setEdgeWeight(edge2, 10);
+		_graph2.addEdge(_v2, _v1);
 	}
 
 	@Test
@@ -46,7 +45,7 @@ public class FlexibleGraph_T {
 	@Test
 	public void testGetEdgeWeight() {
 		assertEquals(10, _graph1.getEdgeWeight(_graph1.getEdge(_v1, _v2)),0.1);
-		assertNotEquals(10, _graph2.getEdgeWeight(_graph2.getEdge(_v1, _v2)), 0.1);
+		assertEquals(1.0, _graph2.getEdgeWeight(_graph2.getEdge(_v2, _v1)), 0.1);
 	}
 	//TODO: add tests for the getOutgoingEdges function
 

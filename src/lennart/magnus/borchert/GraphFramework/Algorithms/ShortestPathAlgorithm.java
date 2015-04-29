@@ -5,11 +5,6 @@ import java.util.List;
 import org.jgrapht.Graph;
 
 public interface ShortestPathAlgorithm<V, E> {
-	
-	/**
-	 * @return Instance of this Class
-	 */
-	public ShortestPathAlgorithm<V, E> getInstance();
 
 	/**
 	 * This method will return the shortest path from startVertex to endVertex in graph, if one exists.

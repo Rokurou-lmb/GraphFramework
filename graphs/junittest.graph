@@ -1,4 +1,4 @@
 #directed #weighted
-a,b
-b,c
-c,a
+a,b::5
+b,c::2
+c,a::6

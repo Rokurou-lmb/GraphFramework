@@ -57,9 +57,10 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 		Map<V, DijkstraDataTableEntry> dataTable = new HashMap<>();
 
 		DijkstraDataTableEntry firstTableEntry = new DijkstraDataTableEntry();
-		firstTableEntry.setDistance(0);
+		firstTableEntry.setDistanceAndPredecessor(0, startVertex);
 		dataTable.put(startVertex, firstTableEntry);
 		Set<V> vertexSet = graph.vertexSet();
+		vertexSet.remove(startVertex);
 		for (V vertex : vertexSet) {
 			dataTable.put(vertex, new DijkstraDataTableEntry());
 		}
@@ -82,11 +83,14 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 		Map.Entry<V, DijkstraDataTableEntry> currentEntry;
 		while(dataTableEntryIterator.hasNext()){
 			currentEntry = dataTableEntryIterator.next();
-			double currentEntryDistance = currentEntry.getValue().getDistance();
-			if(currentEntryDistance < minDistance){
-				minDistance = currentEntryDistance;
-				nextVertex = currentEntry.getKey();
+			if(!currentEntry.getValue().getOk()){
+				double currentEntryDistance = currentEntry.getValue().getDistance();
+				if(currentEntryDistance < minDistance){
+					minDistance = currentEntryDistance;
+					nextVertex = currentEntry.getKey();
+				}
 			}
+
 		}
 		return nextVertex;
 	}
@@ -122,7 +126,7 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 		while(dataTableSetIterator.hasNext() && isFinished){
 			Map.Entry<V, DijkstraDataTableEntry> dataTableEntry = dataTableSetIterator.next();
 			
-			isFinished = !(dataTableEntry.getValue().getOk() && dataTableEntry.getValue().getPredecessor().equals(null));
+			isFinished = !(dataTableEntry.getValue().getOk() && (dataTableEntry.getValue().getPredecessor() == null));
 			//If there is an entry with an defined predeccesor that is also not Ok, Dijkstra is not finished
 			}
 		return isFinished;
@@ -143,6 +147,7 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 			path.add(currentVertex);
 			currentVertex = dataTable.get(currentVertex).getPredecessor();
 		}
+		path.add(currentVertex);
 		return path;
 	}
 	
@@ -177,20 +182,6 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 		 */
 		public boolean getOk() {
 			return _ok;
-		}
-
-		/**
-		 * @param _distance the _distance to set
-		 */
-		public void setDistance(double _distance) {
-			this._distance = _distance;
-		}
-
-		/**
-		 * @param _predecessor the _predecessor to set
-		 */
-		public void setPredecessor(V _predecessor) {
-			this._predecessor = _predecessor;
 		}
 
 		/**

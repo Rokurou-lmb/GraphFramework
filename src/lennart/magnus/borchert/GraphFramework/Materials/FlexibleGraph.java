@@ -23,13 +23,24 @@ public class FlexibleGraph<V, E> extends DirectedWeightedPseudograph<V, E> imple
 
 	@Override
 	public E getEdge(V sourceVertex, V targetVertex) {
-	
 		return super.getEdge(sourceVertex, targetVertex);
 	}
 
 	@Override
 	public double getEdgeWeight(E e) {
 		return super.getEdgeWeight(e);
+	}
+
+	/**
+	 * Generates a Set of all Vertices
+	 * 
+	 * @return Set of all Vertices
+	 */
+	@Override
+	public Set<V> vertexSet(){
+		Set<V> vertexSet = new HashSet<>();
+		vertexSet.addAll(super.vertexSet());//This somehow changes the GUI layout
+		return vertexSet;
 	}
 
 	@Override
@@ -43,6 +54,7 @@ public class FlexibleGraph<V, E> extends DirectedWeightedPseudograph<V, E> imple
 
 	/**
 	 * Generates a Set of all outgoing Edges for the given Vertex
+	 * 
 	 * @param vertex for which to get outgoing Edges
 	 * @return Set of all outgoing Edges
 	 */
@@ -59,7 +71,13 @@ public class FlexibleGraph<V, E> extends DirectedWeightedPseudograph<V, E> imple
 		}
 		return outgoingEdges;
 	}
-	
+
+	/**
+	 * Generates a Set of all incoming Edges for the given Vertex
+	 * 
+	 * @param vertex for which to get incoming Edges
+	 * @return Set of all incoming Edges
+	 */
 	public Set<E> getIncomingEdges(V vertex){
 		Set<E> incomingEdges = new HashSet<>();
 		incomingEdges.addAll(super.edgesOf(vertex));

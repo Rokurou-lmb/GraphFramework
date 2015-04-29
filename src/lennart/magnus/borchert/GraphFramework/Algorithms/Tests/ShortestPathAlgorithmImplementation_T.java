@@ -1,5 +1,7 @@
 package lennart.magnus.borchert.GraphFramework.Algorithms.Tests;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,26 +28,19 @@ public class ShortestPathAlgorithmImplementation_T {
 	private String _path;
 
 	private FlexibleGraph<Vertex, Edge> _graph1;
-	private FlexibleGraph<Vertex, Edge> _graph2;
-	private FlexibleGraph<Vertex, Edge> _graph3;
 
 	@Before
 	public void init() throws IOException{
-		_graph1 = new FlexibleGraph<>(true, true, Edge.class);
-		_graph2 = new FlexibleGraph<>(false, false, Edge.class);
-		
 		_path = new File(".").getCanonicalPath()+"\\graphs\\";
-
 		_parser = new GraphParser();
-		
 	}
 
 
 
 	@Test
-	public void test() throws FileFormatException {
+	public void testAllImplementationsAgainstEachother() throws FileFormatException {
 		String file = "bsp1.graph";
-		_graph3 = _parser.parse(_path+file);
+		_graph1 = _parser.parse(_path+file);
 		Vertex startVertex = new Vertex("a", 1);
 		ShortestPathAlgorithm<Vertex, Edge> breadthFirstSearch = new BreadthFirstSearchShortestPath<>();
 		ShortestPathAlgorithm<Vertex, Edge> dijkstraShortestPath = new DijkstraShortestPath<>();
@@ -55,12 +50,12 @@ public class ShortestPathAlgorithmImplementation_T {
 		List<Vertex> dijkstraShortestPathList;
 		List<Vertex> aStarShortestPathList;
 		System.out.println("File to be parsed and tested with: "+file);
-		Set<Vertex> vertexSet = _graph3.vertexSet();
+		Set<Vertex> vertexSet = _graph1.vertexSet();
 		for (Vertex endVertex : vertexSet) {
-			org.jgrapht.alg.DijkstraShortestPath<Vertex, Edge> dijkstraSafe = new org.jgrapht.alg.DijkstraShortestPath<>(_graph3, startVertex, endVertex);
-			breadthFirstSearchList = breadthFirstSearch.findShortestPath(_graph3, startVertex, endVertex);
-			dijkstraShortestPathList = dijkstraShortestPath.findShortestPath(_graph3, startVertex, endVertex);
-			aStarShortestPathList = aStarShortestPath.findShortestPath(_graph3, startVertex, endVertex);
+			org.jgrapht.alg.DijkstraShortestPath<Vertex, Edge> dijkstraSafe = new org.jgrapht.alg.DijkstraShortestPath<>(_graph1, startVertex, endVertex);
+			breadthFirstSearchList = breadthFirstSearch.findShortestPath(_graph1, startVertex, endVertex);
+			dijkstraShortestPathList = dijkstraShortestPath.findShortestPath(_graph1, startVertex, endVertex);
+			aStarShortestPathList = aStarShortestPath.findShortestPath(_graph1, startVertex, endVertex);
 
 			GraphPath<Vertex, Edge> dijkstraPathSafe = dijkstraSafe.getPath();
 			List<Vertex> dijkstraSafeList = new ArrayList<>();
@@ -68,7 +63,7 @@ public class ShortestPathAlgorithmImplementation_T {
 			List<Edge> dijkstraSafeEdgeList = dijkstraSafe.getPathEdgeList();
 			if(dijkstraSafeEdgeList != null){
 				for (Edge edge : dijkstraSafeEdgeList) {
-					dijkstraSafeList.add(_graph3.getEdgeTarget(edge));
+					dijkstraSafeList.add(_graph1.getEdgeTarget(edge));
 				}
 			}
 
@@ -76,6 +71,10 @@ public class ShortestPathAlgorithmImplementation_T {
 			System.out.println("Shortest path from "+startVertex.getIdentifier()+" to "+endVertex.getIdentifier()+" with Dijkstra:          "+dijkstraShortestPathList.toString());
 			System.out.println("Shortest path from "+startVertex.getIdentifier()+" to "+endVertex.getIdentifier()+" with AStar:             "+aStarShortestPathList.toString());
 			System.out.println("Shortest path from "+startVertex.getIdentifier()+" to "+endVertex.getIdentifier()+" with Dijkstra(failsafe):"+dijkstraSafeList.toString());
+
+			assertEquals(breadthFirstSearchList.size(),dijkstraSafeList.size());
+			assertEquals(dijkstraShortestPathList.size(),dijkstraSafeList.size());
+			assertEquals(aStarShortestPathList.size(),dijkstraSafeList.size());
 		}
 	}
 

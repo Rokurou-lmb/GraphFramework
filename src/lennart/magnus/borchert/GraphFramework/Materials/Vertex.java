@@ -10,10 +10,15 @@ package lennart.magnus.borchert.GraphFramework.Materials;
 public class Vertex {
 	private String _identifier;
 	private int _attribute;
+	public static final int DEFAULT_ATTRIBUTE_VALUE = 1;
 	
 	public Vertex(String id, int attr){
 		_attribute = attr;
 		_identifier = id;
+	}
+	
+	public Vertex(String id){
+		this(id,1);
 	}
 	
 	/**
@@ -36,8 +41,8 @@ public class Vertex {
 	
 	@Override
 	public String toString() {
-		if (_attribute != 0) {
-			return _identifier + ": " + _attribute;
+		if (_attribute != 1) {
+			return _identifier + " : " + _attribute;
 		}else{
 			return _identifier;
 		}
@@ -50,7 +55,6 @@ public class Vertex {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + _attribute;
 		result = prime * result
 				+ ((_identifier == null) ? 0 : _identifier.hashCode());
 		return result;
@@ -71,9 +75,6 @@ public class Vertex {
 			return false;
 		}
 		Vertex other = (Vertex) obj;
-		if (_attribute != other._attribute) {
-			return false;
-		}
 		if (_identifier == null) {
 			if (other._identifier != null) {
 				return false;
@@ -83,4 +84,5 @@ public class Vertex {
 		}
 		return true;
 	}
+
 }

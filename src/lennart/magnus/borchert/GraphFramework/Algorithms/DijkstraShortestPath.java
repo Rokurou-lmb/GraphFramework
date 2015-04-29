@@ -144,10 +144,10 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 		LinkedList<V> path = new LinkedList<>();
 		V currentVertex = endVertex;
 		while(dataTable.get(currentVertex).getDistance() != 0){
-			path.add(currentVertex);
+			path.addFirst(currentVertex);
 			currentVertex = dataTable.get(currentVertex).getPredecessor();
 		}
-		path.add(currentVertex);
+		path.addFirst(currentVertex);
 		return path;
 	}
 	

@@ -1,7 +1,9 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 
+import lennart.magnus.borchert.GraphFramework.Algorithms.AStarShortestPath;
 import lennart.magnus.borchert.GraphFramework.Algorithms.BreadthFirstSearchShortestPath;
+import lennart.magnus.borchert.GraphFramework.Algorithms.DijkstraShortestPath;
 import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.Materials.Edge;
@@ -9,6 +11,7 @@ import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -58,10 +61,24 @@ public class MainFrame {
                     case "dij":
                         //TODO START DIJKSTRA
                         System.out.println("dijkstra start");
+                        DijkstraShortestPath dij = new DijkstraShortestPath();
                         break;
                     case "as":
                         //TODO START A*
                         System.out.println("A* start");
+                        AStarShortestPath as = new AStarShortestPath();
+                        if(getTwoSelected()){
+                            List path = as.findShortestPath(graph,start,end);
+                            if(path.size()==0) {
+                                JOptionPane.showMessageDialog(this._ui.getFrame(), "Kein Weg gefunden", "Fehler", JOptionPane.ERROR_MESSAGE);
+                                break;
+                            }
+                            String message = "";
+                            for (int i = path.size()-1; i>=0; i--){
+                                message += path.get(i)+" ";
+                            }
+                            JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+message, "Erfolg", JOptionPane.PLAIN_MESSAGE);
+                        }
                         break;
                 }
 

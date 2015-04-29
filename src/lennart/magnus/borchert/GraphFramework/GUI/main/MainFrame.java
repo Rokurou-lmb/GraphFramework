@@ -54,8 +54,14 @@ public class MainFrame {
                         //TODO START BFS
                         System.out.println("bfs start");
                         BreadthFirstSearchShortestPath bfs = new BreadthFirstSearchShortestPath();
+
                         if(getTwoSelected()) {
-                            System.out.println(bfs.findShortestPath(graph, start, end));
+                            List path = bfs.findShortestPath(graph, start, end);
+                            if(path.size()>0){
+                                JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+path, "Erfolg", JOptionPane.PLAIN_MESSAGE);
+                            }else {
+                                JOptionPane.showMessageDialog(this._ui.getFrame(), "Kein Weg gefunden", "Fehler", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                         break;
                     case "dij":
@@ -64,15 +70,11 @@ public class MainFrame {
                         DijkstraShortestPath dij = new DijkstraShortestPath();
                         if(getTwoSelected()){
                             List path = dij.findShortestPath(graph,start,end);
-                            if(path.size()==0) {
+                            if(path.size()>0){
+                                JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+path, "Erfolg", JOptionPane.PLAIN_MESSAGE);
+                            }else {
                                 JOptionPane.showMessageDialog(this._ui.getFrame(), "Kein Weg gefunden", "Fehler", JOptionPane.ERROR_MESSAGE);
-                                break;
                             }
-                            String message = "";
-                            for (int i = path.size()-1; i>=0; i--){
-                                message += path.get(i)+" ";
-                            }
-                            JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+message, "Erfolg", JOptionPane.PLAIN_MESSAGE);
                         }
                         break;
                     case "as":
@@ -81,15 +83,11 @@ public class MainFrame {
                         AStarShortestPath as = new AStarShortestPath();
                         if(getTwoSelected()){
                             List path = as.findShortestPath(graph,start,end);
-                            if(path.size()==0) {
+                            if(path.size()>0){
+                                JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+path, "Erfolg", JOptionPane.PLAIN_MESSAGE);
+                            }else {
                                 JOptionPane.showMessageDialog(this._ui.getFrame(), "Kein Weg gefunden", "Fehler", JOptionPane.ERROR_MESSAGE);
-                                break;
                             }
-                            String message = "";
-                            for (int i = path.size()-1; i>=0; i--){
-                                message += path.get(i)+" ";
-                            }
-                            JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+message, "Erfolg", JOptionPane.PLAIN_MESSAGE);
                         }
                         break;
                 }

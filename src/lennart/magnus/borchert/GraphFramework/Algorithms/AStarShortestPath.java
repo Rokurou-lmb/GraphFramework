@@ -44,7 +44,9 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 					targetVertex = graph.getEdgeTarget(edge);
 					//System.out.print("to " + targetVertex.toString());
 					AStarData mnext = aStarTable.get(targetVertex);
-					double d = Double.valueOf(((Edge)edge).toString())+prefData.getValue().getD();
+					double d = 1;
+					if(((Edge)edge).toString().length()>0)
+						d = Double.valueOf(((Edge)edge).toString())+prefData.getValue().getD();
 					//System.out.println(" -> "+d);
 					//update data
 					if(!mnext.isOk()&&mnext.getD()>d){
@@ -82,10 +84,11 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 		Map.Entry<V,AStarData> result = null;
 
 		for(Map.Entry<V,AStarData> data : map.entrySet()){
-			if(result==null&&!data.getValue().isOk()) result=data;
-			else if(result!=null){
-				if(data.getValue().getF()<=result.getValue().getF()&&!data.getValue().isOk()){
-					result = data;
+			if(data.getValue().getF()<Integer.MAX_VALUE&&!data.getValue().isOk()) {
+				if(result==null){
+					result=data;
+				}else if(data.getValue().getF()<result.getValue().getF()){
+					result=data;
 				}
 			}
 		}

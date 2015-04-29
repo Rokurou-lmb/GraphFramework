@@ -55,8 +55,8 @@ public class GraphParser {
 				source = new Vertex(sourceValues[0], Integer.parseInt(sourceValues[1]));
 				target = new Vertex(targetValues[0], Integer.parseInt(targetValues[1]));
 			} else {
-				source = new Vertex(sourceValues[0], 0);
-				target = new Vertex(targetValues[0], 0);
+				source = new Vertex(sourceValues[0], Vertex.DEFAULT_ATTRIBUTE_VALUE);
+				target = new Vertex(targetValues[0], Vertex.DEFAULT_ATTRIBUTE_VALUE);
 			}
 
 			graph.addVertex(source);

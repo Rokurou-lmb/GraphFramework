@@ -1,6 +1,7 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 
+import lennart.magnus.borchert.GraphFramework.Algorithms.BreadthFirstSearchShortestPath;
 import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.Materials.Edge;
@@ -28,6 +29,8 @@ public class MainFrame {
     
     private Graph<Vertex, Edge> graph;
 
+    private Vertex start,end;
+
     public MainFrame(){
         try {
             DIR = new File(".").getCanonicalPath()+"\\graphs";
@@ -39,41 +42,53 @@ public class MainFrame {
 
         fc = new FileChooser(getFiles(DIR));
         fc.addListener(s -> {
-            switch (s){
-                default:
-                    updateGraph();
-                    break;
-                case "bfs":
-                    //TODO START BFS
-                    System.out.println("bfs start");
-                    break;
-                case "dij":
-                    //TODO START DIJKSTRA
-                    System.out.println("dijkstra start");
-                    break;
-                case "as":
-                    //TODO START A*
-                    System.out.println("A* start");
-                    break;
-            }
+
+                switch (s){
+                    default:
+                        updateGraph();
+                        break;
+                    case "bfs":
+                        //TODO START BFS
+                        System.out.println("bfs start");
+                        BreadthFirstSearchShortestPath bfs = new BreadthFirstSearchShortestPath();
+                        if(getTwoSelected()) {
+                            System.out.println(bfs.findShortestPath(graph, start, end));
+                        }
+                        break;
+                    case "dij":
+                        //TODO START DIJKSTRA
+                        System.out.println("dijkstra start");
+                        break;
+                    case "as":
+                        //TODO START A*
+                        System.out.println("A* start");
+                        break;
+                }
+
 
         });
         gd = new GraphDisplayer();
         
         JButton suchButton = new JButton("suche");
         suchButton.addActionListener(e -> {
-            Object[] selectedElements = gd.getSelectedNodes();
-            if(selectedElements.length == 2) {
-                Vertex start = (Vertex)((DefaultGraphCell)selectedElements[0]).getUserObject();
-                Vertex end = (Vertex)((DefaultGraphCell)selectedElements[1]).getUserObject();
-                System.out.println(start.getIdentifier());
-                System.out.println(end.getIdentifier());
-            } else {
-                JOptionPane.showMessageDialog(this._ui.getFrame(), "Es kann nur der kürzeste Pfad zwischen zwei Knoten berechnet werden. Bitte wählen Sie genau zwei Knoten aus (Strg+Mausklick).", "Fehler", JOptionPane.ERROR_MESSAGE);
-            }
+
         });
         
         _ui = new MainFrameUI(fc.getUI(),gd.getUI(),suchButton);
+    }
+
+    private boolean getTwoSelected() {
+        Object[] selectedElements = gd.getSelectedNodes();
+        if(selectedElements.length == 2) {
+            start = (Vertex)((DefaultGraphCell)selectedElements[0]).getUserObject();
+            end = (Vertex)((DefaultGraphCell)selectedElements[1]).getUserObject();
+            System.out.println(start.getIdentifier());
+            System.out.println(end.getIdentifier());
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(this._ui.getFrame(), "Es kann nur der kürzeste Pfad zwischen zwei Knoten berechnet werden. Bitte wählen Sie genau zwei Knoten aus (Strg+Mausklick).", "Fehler", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
     }
 
     private String[] getFiles(String path){

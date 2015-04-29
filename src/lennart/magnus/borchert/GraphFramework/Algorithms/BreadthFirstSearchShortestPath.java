@@ -14,20 +14,6 @@ import org.jgrapht.Graph;
 
 public class BreadthFirstSearchShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>{
 
-	private BreadthFirstSearchShortestPath(){}
-
-	public BreadthFirstSearchShortestPath<V, E> getInstance(){
-		return (BreadthFirstSearchShortestPath<V, E>)super.getInstance();
-	}
-
-	@Override
-	protected AbstractShortestPathAlgorithm<V, E> InstanceExists() {
-		if (super._instance == null) {
-			super._instance = new BreadthFirstSearchShortestPath<>();
-		}
-		return super._instance;
-	}
-
 	@Override
 	protected List<V> shortestPathHelper(Graph<V, E> graph, V startVertex, V endVertex) {
 		LinkedList<V> path = new LinkedList<V>();
@@ -57,19 +43,28 @@ public class BreadthFirstSearchShortestPath<V, E> extends AbstractShortestPathAl
 			}
 		}
 		if(endVertexFound){ //Wenn ein Weg vorhanden ist, verfolge diesen zurück zum Startknoten.
-			int remainingPathElements = distanceMap.get(targetVertex);
-			while(remainingPathElements > 0){
-				Set<E> incomingEdges = ((FlexibleGraph<V, E>)graph).getIncomingEdges(targetVertex);
-				Iterator<E> incomingEdgeIterator = incomingEdges.iterator();
-				boolean foundSource = false;
-				E edge;
-				while(incomingEdgeIterator.hasNext() && !foundSource) {
-					edge = incomingEdgeIterator.next();
-					if(distanceMap.get(edge).equals(new Integer(remainingPathElements-1))){
-						foundSource = true;
-						path.addFirst(graph.getEdgeSource(edge));
-						remainingPathElements--;
-					}
+			path = traceTakenPath(graph, distanceMap, startVertex, endVertex);
+		}
+		return path;
+	}
+	
+	private LinkedList<V> traceTakenPath(Graph<V, E> graph, Map<V, Integer> distanceMap, V startVertex, V endVertex){
+		LinkedList<V> path = new LinkedList<>();
+		V targetVertex = endVertex;
+		int remainingPathElements = distanceMap.get(targetVertex);
+
+		while(remainingPathElements > 0){
+			Set<E> incomingEdges = ((FlexibleGraph<V, E>)graph).getIncomingEdges(targetVertex);
+			Iterator<E> incomingEdgeIterator = incomingEdges.iterator();
+			boolean foundSource = false;
+			E edge;
+			while(incomingEdgeIterator.hasNext() && !foundSource) { //iterate over all incoming edges
+				edge = incomingEdgeIterator.next();
+				if(distanceMap.get(edge).equals(new Integer(remainingPathElements-1))){
+					foundSource = true;
+					targetVertex = graph.getEdgeSource(edge);
+					path.addFirst(targetVertex);
+					remainingPathElements--;
 				}
 			}
 		}

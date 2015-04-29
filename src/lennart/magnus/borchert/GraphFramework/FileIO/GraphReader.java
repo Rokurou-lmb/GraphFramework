@@ -18,6 +18,7 @@ import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 public class GraphReader {
 
 	//TODO test RegEx
+	//TODO implement java Reader/Scanner to use utf-8 as encoding
 	private static String graphOptionsLine = "(#directed)?\\s*(#attributed)?\\s*(#weighted)?";
 	private static String attribute = "(:-?\\d+)?\\s*";
 	private static String node = "[^\\s,:]+\\s*";

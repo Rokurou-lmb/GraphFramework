@@ -1,0 +1,7 @@
+#directed #weighted
+hier:100,dort:50::40
+hier:100,hierhin:75::25
+hierhin:75,dorthin:25::30
+dort:50,dorthin:25::20
+ziel:0,hier:100::100
+dorthin:25,ziel:0::10

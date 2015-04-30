@@ -73,7 +73,6 @@ public class UndirectedGraphGenerator {
 			for(int j = 0; j < edgeCount; j++){
 				graph.addEdge(vertexList.get(intStreamIterator.nextInt()), vertexList.get(intStreamIterator.nextInt()));
 			}
-			graph.addEdge(vertexList.get(vertexList.size()-1), vertexList.get(0));
 		}
 		return filledGraph;
 	}

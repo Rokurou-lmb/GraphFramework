@@ -103,20 +103,20 @@ public class ShortestPathAlgorithmImplementation_T {
 		Vertex startVertex = bigVertexList.get(0);
 		Vertex endVertex = bigVertexList.get(bigVertexList.size()-1);
 		
-		org.jgrapht.alg.DijkstraShortestPath<Vertex, Edge> dijkstraSafe = new org.jgrapht.alg.DijkstraShortestPath<>(_graph1, startVertex, endVertex);
+		org.jgrapht.alg.DijkstraShortestPath<Vertex, Edge> dijkstraSafe = new org.jgrapht.alg.DijkstraShortestPath<>(graph, startVertex, endVertex);
 		GraphPath<Vertex, Edge> dijkstraPathSafe = dijkstraSafe.getPath();
 		List<Vertex> dijkstraSafeList = new ArrayList<>();
 		dijkstraSafeList.add(dijkstraPathSafe.getStartVertex());
 		List<Edge> dijkstraSafeEdgeList = dijkstraSafe.getPathEdgeList();
 		if(dijkstraSafeEdgeList != null){
 			for (Edge edge : dijkstraSafeEdgeList) {
-				dijkstraSafeList.add(_graph1.getEdgeTarget(edge));
+				dijkstraSafeList.add(graph.getEdgeTarget(edge));
 			}
 		}
 		
-		breadthFirstSearchList = _breadthFirstSearch.findShortestPath(_graph1, startVertex, endVertex);
-		dijkstraShortestPathList = _dijkstraShortestPath.findShortestPath(_graph1, startVertex, endVertex);
-		aStarShortestPathList = _aStarShortestPath.findShortestPath(_graph1, startVertex, endVertex);
+		breadthFirstSearchList = _breadthFirstSearch.findShortestPath(graph, startVertex, endVertex);
+		dijkstraShortestPathList = _dijkstraShortestPath.findShortestPath(graph, startVertex, endVertex);
+		aStarShortestPathList = _aStarShortestPath.findShortestPath(graph, startVertex, endVertex);
 
 		assertEquals(breadthFirstSearchList.size(),dijkstraSafeList.size());
 		assertEquals(dijkstraShortestPathList.size(),dijkstraSafeList.size());

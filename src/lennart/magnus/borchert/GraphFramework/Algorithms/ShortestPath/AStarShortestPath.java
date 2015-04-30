@@ -34,7 +34,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 		//find Vertex with lowest f
 
 		Map.Entry<V,AStarData> prefData = findBest(aStarTable);
-		while(prefData!=null){
+		while(prefData!=null&&!aStarTable.get(endVertex).isOk()){
 			prefData.getValue().setOk(true);
 
 			//get next set with !Ok
@@ -42,14 +42,14 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 			for (E edge : currentEdges) {
 				if(!((FlexibleGraph<V, E>) graph).getEdgeTarget(edge).toString().equals(prefData.getKey().toString())){
 					targetVertex = graph.getEdgeTarget(edge);
-					//System.out.print("to " + targetVertex.toString());
+					System.out.print("to " + targetVertex.toString());
 					AStarData mnext = aStarTable.get(targetVertex);
 					double d = 1;
 					if(((Edge)edge).toString().length()>0)
 						d = Double.valueOf(((Edge)edge).toString());
-					//System.out.println(" -> "+d);
+					System.out.println(" -> "+d);
 					//update data
-					if(!mnext.isOk()&&mnext.getD()>d){
+					if(!mnext.isOk()&&mnext.getD()>d+prefData.getValue().getD()){
 						mnext.setPre((Vertex)prefData.getKey());
 						mnext.setD(d+prefData.getValue().getD());
 					}
@@ -57,7 +57,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 			}
 
 			//find next best
-			//System.out.println(prefData.getKey().toString()+": ok:"+prefData.getValue().isOk()+"|d:"+prefData.getValue().getD()+"|f"+prefData.getValue().getF());//"|pref:"+prefData.getValue().getPre().toString());
+			System.out.println(prefData.getKey().toString()+": ok:"+prefData.getValue().isOk()+"|d:"+prefData.getValue().getD()+"|f"+prefData.getValue().getF());//"|pref:"+prefData.getValue().getPre().toString());
 			prefData = findBest(aStarTable);
 		}
 
@@ -92,7 +92,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 				}
 			}
 		}
-		//System.out.println("select " + result.getKey().toString());
+		if(result!=null)System.out.println("select " + result.getKey().toString());
 		return result;
 	}
 

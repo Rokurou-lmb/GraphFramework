@@ -10,9 +10,14 @@ import org.jgrapht.Graph;
 
 public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>{
 
+	private int _counter = 0;
+
+	public int getCounter(){
+		return _counter;
+	}
+
 	@Override
 	protected List<V> shortestPathHelper(Graph<V, E> graph, V startVertex, V endVertex) {
-		//TODO: implement A* Algorithm
 		List<V> path = new ArrayList<V>();
 
 		Vertex start = (Vertex)startVertex;
@@ -24,6 +29,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 		((AStarData)aStarTable.values().toArray()[0]).setPre((Vertex)startVertex);
 		//put all Vertexes
 		for(V vertex : graph.vertexSet()){
+			_counter++;
 			if(!aStarTable.keySet().contains(vertex))
 				aStarTable.put(vertex,new AStarData(((Vertex) vertex).getAttribute()));
 		}
@@ -41,6 +47,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 			currentEdges = ((FlexibleGraph<V, E>)graph).getOutgoingEdges(prefData.getKey());
 			for (E edge : currentEdges) {
 				if(!((FlexibleGraph<V, E>) graph).getEdgeTarget(edge).toString().equals(prefData.getKey().toString())){
+					_counter++;
 					targetVertex = graph.getEdgeTarget(edge);
 					System.out.print("to " + targetVertex.toString());
 					AStarData mnext = aStarTable.get(targetVertex);
@@ -76,7 +83,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 				}
 			}
 		}
-
+		System.out.println(_counter);
 		return path;
 	}
 

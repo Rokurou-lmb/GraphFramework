@@ -107,13 +107,18 @@ public class MainFrame {
     private boolean getTwoSelected() {
         Object[] selectedElements = gd.getSelectedNodes();
         if(selectedElements.length == 2) {
-            start = (Vertex)((DefaultGraphCell)selectedElements[0]).getUserObject();
-            end = (Vertex)((DefaultGraphCell)selectedElements[1]).getUserObject();
-            System.out.println(start.getIdentifier());
-            System.out.println(end.getIdentifier());
-            return true;
+            try{
+                start = (Vertex)((DefaultGraphCell)selectedElements[0]).getUserObject();
+                end = (Vertex)((DefaultGraphCell)selectedElements[1]).getUserObject();
+                System.out.println(start.getIdentifier());
+                System.out.println(end.getIdentifier());
+                return true;
+            }catch (ClassCastException e){
+                JOptionPane.showMessageDialog(this._ui.getFrame(), "Bitte keine Kanten auswaehlen.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
         } else {
-            JOptionPane.showMessageDialog(this._ui.getFrame(), "Es kann nur der kürzeste Pfad zwischen zwei Knoten berechnet werden. Bitte wählen Sie genau zwei Knoten aus (Strg+Mausklick).", "Fehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this._ui.getFrame(), "Es kann nur der kuerzeste Pfad zwischen zwei Knoten berechnet werden.", "Fehler", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

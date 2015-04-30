@@ -10,9 +10,9 @@ import org.jgrapht.Graph;
 
 public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>{
 
-	private static int _counter = 0;
+	private int _counter = 0;
 
-	public static int getCounter(){
+	public int getCounter(){
 		return _counter;
 	}
 

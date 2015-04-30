@@ -1,4 +1,4 @@
-package lennart.magnus.borchert.GraphFramework.Algorithms;
+package lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath;
 
 import java.lang.reflect.Array;
 import java.util.*;

@@ -1,4 +1,4 @@
-package lennart.magnus.borchert.GraphFramework.Algorithms.Materials;
+package lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.Materials;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package lennart.magnus.borchert.GraphFramework.Algorithms.Tests;
+package lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.Tests;
 
 import static org.junit.Assert.*;
 
@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import lennart.magnus.borchert.GraphFramework.Algorithms.AStarShortestPath;
-import lennart.magnus.borchert.GraphFramework.Algorithms.BreadthFirstSearchShortestPath;
-import lennart.magnus.borchert.GraphFramework.Algorithms.DijkstraShortestPath;
-import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPathAlgorithm;
+import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.AStarShortestPath;
+import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.BreadthFirstSearchShortestPath;
+import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.DijkstraShortestPath;
+import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.ShortestPathAlgorithm;
 import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.Materials.Edge;

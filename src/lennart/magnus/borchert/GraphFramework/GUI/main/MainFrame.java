@@ -1,9 +1,9 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 
-import lennart.magnus.borchert.GraphFramework.Algorithms.AStarShortestPath;
-import lennart.magnus.borchert.GraphFramework.Algorithms.BreadthFirstSearchShortestPath;
-import lennart.magnus.borchert.GraphFramework.Algorithms.DijkstraShortestPath;
+import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.AStarShortestPath;
+import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.BreadthFirstSearchShortestPath;
+import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.DijkstraShortestPath;
 import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.Materials.Edge;

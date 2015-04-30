@@ -79,7 +79,7 @@ public class ShortestPathAlgorithmImplementation_T {
 			System.out.println("Shortest path from "+startVertex.getIdentifier()+" to "+endVertex.getIdentifier()+" with Dijkstra:          "+dijkstraShortestPathList.toString());
 			System.out.println("Shortest path from "+startVertex.getIdentifier()+" to "+endVertex.getIdentifier()+" with AStar:             "+aStarShortestPathList.toString());
 			System.out.println("Shortest path from "+startVertex.getIdentifier()+" to "+endVertex.getIdentifier()+" with Dijkstra(failsafe):"+dijkstraSafeList.toString());
-
+			System.out.println("");
 			assertEquals(breadthFirstSearchList.size(),dijkstraSafeList.size());
 			assertEquals(dijkstraShortestPathList.size(),dijkstraSafeList.size());
 			assertEquals(aStarShortestPathList.size(),dijkstraSafeList.size());

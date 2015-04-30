@@ -49,12 +49,12 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 				if(!((FlexibleGraph<V, E>) graph).getEdgeTarget(edge).toString().equals(prefData.getKey().toString())){
 					_counter++;
 					targetVertex = graph.getEdgeTarget(edge);
-					System.out.print("to " + targetVertex.toString());
+					//System.out.print("to " + targetVertex.toString());
 					AStarData mnext = aStarTable.get(targetVertex);
 					double d = 1;
 					if(((Edge)edge).toString().length()>0)
 						d = Double.valueOf(((Edge)edge).toString());
-					System.out.println(" -> "+d);
+					//System.out.println(" -> "+d);
 					//update data
 					if(!mnext.isOk()&&mnext.getD()>d+prefData.getValue().getD()){
 						mnext.setPre((Vertex)prefData.getKey());
@@ -64,7 +64,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 			}
 
 			//find next best
-			System.out.println(prefData.getKey().toString()+": ok:"+prefData.getValue().isOk()+"|d:"+prefData.getValue().getD()+"|f"+prefData.getValue().getF());//"|pref:"+prefData.getValue().getPre().toString());
+			//System.out.println(prefData.getKey().toString()+": ok:"+prefData.getValue().isOk()+"|d:"+prefData.getValue().getD()+"|f"+prefData.getValue().getF());//"|pref:"+prefData.getValue().getPre().toString());
 			prefData = findBest(aStarTable);
 		}
 
@@ -83,7 +83,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 				}
 			}
 		}
-		System.out.println(_counter);
+		//System.out.println(_counter);
 		return path;
 	}
 
@@ -99,7 +99,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 				}
 			}
 		}
-		if(result!=null)System.out.println("select " + result.getKey().toString());
+		//if(result!=null)System.out.println("select " + result.getKey().toString());
 		return result;
 	}
 

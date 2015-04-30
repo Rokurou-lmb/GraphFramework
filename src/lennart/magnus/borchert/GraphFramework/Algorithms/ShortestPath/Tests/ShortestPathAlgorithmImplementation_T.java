@@ -90,6 +90,9 @@ public class ShortestPathAlgorithmImplementation_T {
 	public void testBIG(){
 		List<Vertex> breadthFirstSearchList;
 		List<Vertex> dijkstraShortestPathList;
+		double dijkstraDistance = 0;
+		double AStarDistance = 0;
+		double dijkstraDistanceSafe = 0;
 		List<Vertex> aStarShortestPathList;
 		
 		
@@ -113,14 +116,26 @@ public class ShortestPathAlgorithmImplementation_T {
 				dijkstraSafeList.add(graph.getEdgeTarget(edge));
 			}
 		}
-		
+
 		breadthFirstSearchList = _breadthFirstSearch.findShortestPath(graph, startVertex, endVertex);
 		dijkstraShortestPathList = _dijkstraShortestPath.findShortestPath(graph, startVertex, endVertex);
 		aStarShortestPathList = _aStarShortestPath.findShortestPath(graph, startVertex, endVertex);
 
+		for(int i = 0; i < dijkstraShortestPathList.size()-1; i++){
+			dijkstraDistance += graph.getEdgeWeight(graph.getEdge(dijkstraShortestPathList.get(i), dijkstraShortestPathList.get(i+1)));
+		}
+		
+		for(int i = 0; i < aStarShortestPathList.size()-1; i++){
+			AStarDistance += graph.getEdgeWeight(graph.getEdge(aStarShortestPathList.get(i), aStarShortestPathList.get(i+1)));
+		}
+
 		assertEquals(breadthFirstSearchList.size(),dijkstraSafeList.size());
 		assertEquals(dijkstraShortestPathList.size(),dijkstraSafeList.size());
 		assertEquals(aStarShortestPathList.size(),dijkstraSafeList.size());
+		
+		dijkstraDistanceSafe = dijkstraPathSafe.getWeight();
+		assertEquals(dijkstraDistance,dijkstraDistanceSafe, 0.1);
+		assertEquals(AStarDistance,dijkstraDistanceSafe, 0.1);
 	}
 
 }

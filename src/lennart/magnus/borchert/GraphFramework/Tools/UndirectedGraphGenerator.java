@@ -13,7 +13,7 @@ import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 import org.jgrapht.Graph;
 
 public class UndirectedGraphGenerator {
-	
+
 	/**
 	 * Fills a given empty Graph with the given amount of vertices, which form a circle.
 	 * 
@@ -37,7 +37,7 @@ public class UndirectedGraphGenerator {
 		}
 		return filledGraph;
 	}
-	
+
 	public boolean fillGraphWithWheel(Graph<Vertex, Edge> graph, int vertexCount){
 		boolean filledGraph = graph.vertexSet().isEmpty() && graph.edgeSet().isEmpty();
 		List<Vertex> vertexList= new ArrayList<>();
@@ -56,7 +56,7 @@ public class UndirectedGraphGenerator {
 		}
 		return filledGraph;
 	}
-	
+
 	public boolean fillGraphRandomly(Graph<Vertex, Edge> graph, int vertexCount, int edgeCount){
 		boolean filledGraph = graph.vertexSet().isEmpty() && graph.edgeSet().isEmpty();
 		List<Vertex> vertexList= new ArrayList<>();

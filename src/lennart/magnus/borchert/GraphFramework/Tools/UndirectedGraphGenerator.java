@@ -61,7 +61,7 @@ public class UndirectedGraphGenerator {
 		boolean filledGraph = graph.vertexSet().isEmpty() && graph.edgeSet().isEmpty();
 		List<Vertex> vertexList= new ArrayList<>();
 		Random randomNumberGenerator = new Random();
-		IntStream intStream = randomNumberGenerator.ints(edgeCount, 0, vertexCount+1);
+		IntStream intStream = randomNumberGenerator.ints(edgeCount*2, 0, vertexCount);
 		PrimitiveIterator.OfInt intStreamIterator = intStream.iterator();
 
 		if(filledGraph){

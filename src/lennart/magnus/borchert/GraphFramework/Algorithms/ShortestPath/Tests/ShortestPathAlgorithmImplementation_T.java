@@ -17,16 +17,15 @@ import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.Materials.Edge;
 import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
-import lennart.magnus.borchert.GraphFramework.Tools.UndirectedGraphGenerator;
+import lennart.magnus.borchert.GraphFramework.Tools.GraphGenerator;
 
-import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ShortestPathAlgorithmImplementation_T {
 
-	private UndirectedGraphGenerator _graphGenerator;
+	private GraphGenerator _graphGenerator;
 	private GraphParser _parser;
 	private String _path;
 	private ShortestPathAlgorithm<Vertex, Edge> _aStarShortestPath;
@@ -37,7 +36,7 @@ public class ShortestPathAlgorithmImplementation_T {
 
 	@Before
 	public void init() throws IOException{
-		_graphGenerator = new UndirectedGraphGenerator();
+		_graphGenerator = new GraphGenerator();
 		_path = new File(".").getCanonicalPath()+"\\graphs\\";
 		_parser = new GraphParser();
 		_breadthFirstSearch = new BreadthFirstSearchShortestPath<>();
@@ -95,9 +94,7 @@ public class ShortestPathAlgorithmImplementation_T {
 		double dijkstraDistanceSafe = 0;
 		List<Vertex> aStarShortestPathList;
 		
-		
-		Graph<Vertex, Edge> graph = new FlexibleGraph<>(false, true, Edge.class);
-		_graphGenerator.fillGraphRandomly(graph, 100, 6000);
+		FlexibleGraph<Vertex, Edge> graph = _graphGenerator.generateDirectedWeightedGraph(Edge.class, 100, 6000, 100);
 		
 		Set<Vertex> bigVertexSet = graph.vertexSet();
 		List<Vertex> bigVertexList = new ArrayList<>();

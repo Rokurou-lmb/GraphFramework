@@ -53,10 +53,10 @@ public class MainFrame {
                     case "bfs":
                         //TODO START BFS
                         System.out.println("bfs start");
-                        BreadthFirstSearchShortestPath bfs = new BreadthFirstSearchShortestPath();
+                        BreadthFirstSearchShortestPath<Vertex, Edge> bfs = new BreadthFirstSearchShortestPath<>();
 
                         if(getTwoSelected()) {
-                            List path = bfs.findShortestPath(graph, start, end);
+                            List<Vertex> path = bfs.findShortestPath(graph, start, end);
                             if(path.size()>0){
                                 JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+path, "Erfolg", JOptionPane.PLAIN_MESSAGE);
                             }else {
@@ -67,9 +67,9 @@ public class MainFrame {
                     case "dij":
                         //TODO START DIJKSTRA
                         System.out.println("dijkstra start");
-                        DijkstraShortestPath dij = new DijkstraShortestPath();
+                        DijkstraShortestPath<Vertex, Edge> dij = new DijkstraShortestPath<>();
                         if(getTwoSelected()){
-                            List path = dij.findShortestPath(graph,start,end);
+                            List<Vertex> path = dij.findShortestPath(graph,start,end);
                             if(path.size()>0){
                                 JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+path, "Erfolg", JOptionPane.PLAIN_MESSAGE);
                             }else {
@@ -80,9 +80,9 @@ public class MainFrame {
                     case "as":
                         //TODO START A*
                         System.out.println("A* start");
-                        AStarShortestPath as = new AStarShortestPath();
+                        AStarShortestPath<Vertex, Edge> as = new AStarShortestPath<>();
                         if(getTwoSelected()){
-                            List path = as.findShortestPath(graph,start,end);
+                            List<Vertex> path = as.findShortestPath(graph,start,end);
                             if(path.size()>0){
                                 JOptionPane.showMessageDialog(this._ui.getFrame(), "der weg ist: "+path, "Erfolg", JOptionPane.PLAIN_MESSAGE);
                             }else {

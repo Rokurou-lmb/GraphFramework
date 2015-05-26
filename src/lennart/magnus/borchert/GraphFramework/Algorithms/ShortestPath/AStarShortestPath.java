@@ -1,11 +1,15 @@
 package lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import lennart.magnus.borchert.GraphFramework.Materials.Edge;
 import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
+
 import org.jgrapht.Graph;
 
 public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>{

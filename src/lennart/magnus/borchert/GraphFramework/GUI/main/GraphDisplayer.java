@@ -1,14 +1,15 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JPanel;
+
+import lennart.magnus.borchert.GraphFramework.Materials.Edge;
+import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
+
 import org.jgraph.JGraph;
-import org.jgraph.event.GraphSelectionEvent;
-import org.jgraph.event.GraphSelectionListener;
 import org.jgraph.graph.GraphSelectionModel;
 import org.jgrapht.Graph;
 import org.jgrapht.ext.JGraphModelAdapter;
@@ -16,11 +17,6 @@ import org.jgrapht.ext.JGraphModelAdapter;
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.graph.JGraphSimpleLayout;
-
-import javax.swing.*;
-
-import lennart.magnus.borchert.GraphFramework.Materials.Edge;
-import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 /**
  * Created by Gery on 08.04.2015.

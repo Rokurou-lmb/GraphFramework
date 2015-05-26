@@ -1,12 +1,12 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
-import lennart.magnus.borchert.GraphFramework.GUI.main.listener.Talker;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+import lennart.magnus.borchert.GraphFramework.GUI.main.listener.Talker;
 
 /**
  * Created by Gery on 08.04.2015.

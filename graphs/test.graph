@@ -1,3 +1,13 @@
-#directed
-1,2
-2,3
+#weighted
+a,b::3
+a,g::7
+a,f::5
+f,g::3
+f,e::4
+e,g::3
+e,d::2
+d,g::2
+d,c::3
+c,g::6
+c,b::5
+b,g::4

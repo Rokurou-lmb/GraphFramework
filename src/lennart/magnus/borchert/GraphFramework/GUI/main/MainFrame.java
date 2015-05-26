@@ -1,6 +1,7 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 
+import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.Kruskal;
 import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.AStarShortestPath;
 import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.BreadthFirstSearchShortestPath;
 import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.DijkstraShortestPath;
@@ -90,6 +91,12 @@ public class MainFrame {
                             }
                         }
                         break;
+                    case "kruskal":
+                        System.out.println("Kruskal start");
+                        Kruskal k = new Kruskal(this.graph);
+                        for (Edge e : k.createSpanningTree()){
+                            System.out.println(graph.getEdgeSource(e)+","+graph.getEdgeTarget(e));
+                        }
                 }
 
 

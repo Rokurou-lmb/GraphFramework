@@ -2,9 +2,7 @@ package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 import java.util.ArrayList;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 import lennart.magnus.borchert.GraphFramework.GUI.main.listener.Talker;
 
@@ -49,10 +47,17 @@ public class FileChooser extends Talker{
             talk("as");
         });
 
+        JMenuItem kruskalButton = new JMenuItem("Kruskal");
+        kruskalButton.addActionListener(e -> {
+            talk("kruskal");
+        });
+
         JMenu algorithmMenu = new JMenu("algorithms");
         algorithmMenu.add(bfsButton);
         algorithmMenu.add(dijButton);
         algorithmMenu.add(aStarButton);
+        algorithmMenu.add(new JSeparator());
+        algorithmMenu.add(kruskalButton);
         _ui = new FileChooserUI(items,algorithmMenu);
     }
 

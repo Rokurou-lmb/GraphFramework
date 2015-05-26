@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -84,25 +85,24 @@ public class ShortestPathAlgorithmImplementation_T {
 			assertEquals(aStarShortestPathList.size(),dijkstraSafeList.size());
 		}
 	}
-	
+
 	@Test
 	public void testBIG(){
-		List<Vertex> breadthFirstSearchList;
 		List<Vertex> dijkstraShortestPathList;
 		double dijkstraDistance = 0;
 		double AStarDistance = 0;
 		double dijkstraDistanceSafe = 0;
 		List<Vertex> aStarShortestPathList;
-		
+
 		FlexibleGraph<Vertex, Edge> graph = _graphGenerator.generateDirectedWeightedGraph(Edge.class, 100, 6000, 100);
-		
+
 		Set<Vertex> bigVertexSet = graph.vertexSet();
 		List<Vertex> bigVertexList = new ArrayList<>();
 		bigVertexList.addAll(bigVertexSet);
 
 		Vertex startVertex = bigVertexList.get(0);
 		Vertex endVertex = bigVertexList.get(bigVertexList.size()-1);
-		
+
 		org.jgrapht.alg.DijkstraShortestPath<Vertex, Edge> dijkstraSafe = new org.jgrapht.alg.DijkstraShortestPath<>(graph, startVertex, endVertex);
 		GraphPath<Vertex, Edge> dijkstraPathSafe = dijkstraSafe.getPath();
 		List<Vertex> dijkstraSafeList = new ArrayList<>();
@@ -114,25 +114,37 @@ public class ShortestPathAlgorithmImplementation_T {
 			}
 		}
 
-		breadthFirstSearchList = _breadthFirstSearch.findShortestPath(graph, startVertex, endVertex);
 		dijkstraShortestPathList = _dijkstraShortestPath.findShortestPath(graph, startVertex, endVertex);
 		aStarShortestPathList = _aStarShortestPath.findShortestPath(graph, startVertex, endVertex);
 
 		for(int i = 0; i < dijkstraShortestPathList.size()-1; i++){
-			dijkstraDistance += graph.getEdgeWeight(graph.getEdge(dijkstraShortestPathList.get(i), dijkstraShortestPathList.get(i+1)));
-		}
-		
-		for(int i = 0; i < aStarShortestPathList.size()-1; i++){
-			AStarDistance += graph.getEdgeWeight(graph.getEdge(aStarShortestPathList.get(i), aStarShortestPathList.get(i+1)));
+			dijkstraDistance += findSmallestWeight(graph, graph.getAllEdges(dijkstraShortestPathList.get(i), dijkstraShortestPathList.get(i+1)));
 		}
 
-		assertEquals(breadthFirstSearchList.size(),dijkstraSafeList.size());
+		for(int i = 0; i < aStarShortestPathList.size()-1; i++){
+			AStarDistance += findSmallestWeight(graph, graph.getAllEdges(aStarShortestPathList.get(i), aStarShortestPathList.get(i+1)));
+		}
+
 		assertEquals(dijkstraShortestPathList.size(),dijkstraSafeList.size());
 		assertEquals(aStarShortestPathList.size(),dijkstraSafeList.size());
-		
+
 		dijkstraDistanceSafe = dijkstraPathSafe.getWeight();
 		assertEquals(dijkstraDistance,dijkstraDistanceSafe, 0.1);
 		assertEquals(AStarDistance,dijkstraDistanceSafe, 0.1);
 	}
+	
+	private double findSmallestWeight(FlexibleGraph<Vertex,Edge> graph, Set<Edge> edgeSet){
+		double smallestWeight = Double.POSITIVE_INFINITY;
 
+		Iterator<Edge> edgeSetIterator = edgeSet.iterator();
+		Edge edge;
+		double currentWeight;
+		while (edgeSetIterator.hasNext()) {
+			edge = edgeSetIterator.next();
+			currentWeight = graph.getEdgeWeight(edge);
+			if(currentWeight < smallestWeight)
+				smallestWeight = currentWeight;
+		}
+		return smallestWeight;
+	}
 }

@@ -29,7 +29,7 @@ public class GraphGenerator {
 		PrimitiveIterator.OfInt vertexNumberIterator = vertexNumberStream.iterator();
 		
 		Random randomWeightGenerator = new Random();
-		IntStream weightStream = randomWeightGenerator.ints(edgeCount, 0, edgeWeightUpperLimit);
+		IntStream weightStream = randomWeightGenerator.ints(edgeCount, 1, edgeWeightUpperLimit);
 		PrimitiveIterator.OfInt weightIterator = weightStream.iterator();
 
 		for(int i = 0; i < vertexCount; i++){

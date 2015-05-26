@@ -7,6 +7,7 @@ import java.util.Set;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DirectedWeightedPseudograph;
 
+//TODO rework needed, extend undirected and implement directed functionality 
 public class FlexibleGraph<V, E> extends DirectedWeightedPseudograph<V, E> implements Graph<V, E> {
 
 

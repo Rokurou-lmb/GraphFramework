@@ -19,6 +19,7 @@ public class GraphParser {
 
 	public FlexibleGraph<Vertex, Edge> parse(String file) throws FileFormatException {
 		// TODO test parser
+		// TODO rework parser to use java.util.Scanner
 
 		GraphReader fileReader = new GraphReader();
 		List<String> lines = null;

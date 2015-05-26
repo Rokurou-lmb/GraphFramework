@@ -109,12 +109,12 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 
 	private class AStarData{
 		private boolean _ok;
-		private int _h;
+		private double _h;
 		private double _d;
 		private double _f;
 		private Vertex _pre;
 
-		public AStarData(int h){
+		public AStarData(double h){
 			_h = h;
 			_ok = false;
 			_d = Integer.MAX_VALUE;
@@ -122,7 +122,7 @@ public class AStarShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>
 			_pre = null;
 		}
 
-		public AStarData(int h,double d){
+		public AStarData(double h,double d){
 			this(h);
 			_d = d;
 			_f = d+h;

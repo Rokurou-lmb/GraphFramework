@@ -9,7 +9,7 @@ package lennart.magnus.borchert.GraphFramework.Materials;
  */
 public class Vertex {
 	private String _identifier;
-	private int _attribute;
+	private double _attribute;
 	public static final int DEFAULT_ATTRIBUTE_VALUE = 1;
 	
 	public Vertex(String id, int attr){
@@ -21,11 +21,19 @@ public class Vertex {
 		this(id,1);
 	}
 	
+	
+	/**
+	 * @param _attribute the _attribute to set
+	 */
+	public void setAttribute(double attribute) {
+		_attribute = attribute;
+	}
+
 	/**
 	 * 
 	 * @return this vertices attribute.
 	 */
-	public int getAttribute(){
+	public double getAttribute(){
 		return _attribute;
 	}
 	

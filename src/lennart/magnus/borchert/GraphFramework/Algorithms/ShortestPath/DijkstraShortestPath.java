@@ -2,6 +2,7 @@ package lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,37 +14,46 @@ import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 import org.jgrapht.Graph;
 
 public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V, E>{
+	private Graph<V, E> _graph;
+	private V _startVertex;
+	private V _endVertex;
+	private Map<V, DijkstraDataTableEntry> _dataTable;
+	private Set<V> _openSet;
+	private Set<V> _closedSet;
+	private List<V> _path;
+
 
 	@Override
 	protected List<V> shortestPathHelper(Graph<V, E> graph, V startVertex, V endVertex) {
-		List<V> path = new ArrayList<V>();
-		Map<V, DijkstraDataTableEntry> dataTable = createDijkstraDataTable(graph, startVertex);
+		_graph = graph;
+		_startVertex = startVertex;
+		_endVertex = endVertex;
+		_dataTable = createDijkstraDataTable();
+		_openSet = new HashSet<>();
+		_openSet.add(startVertex);
+		_closedSet = new HashSet<>();
+		_path = new ArrayList<V>();
 
-		V currentVertex = startVertex;
-		V targetVertex;
+		V currentVertex = _startVertex;
 		boolean foundShortestPath = false;
-		DijkstraDataTableEntry endVertexData = dataTable.get(endVertex);
 
-		boolean doSearch = true;
-		while(doSearch && !foundShortestPath){
-			doSearch = false;
+		while(!_openSet.isEmpty() && !foundShortestPath){
+			_openSet.remove(currentVertex);
+			_closedSet.add(currentVertex);
 
-			dataTable.get(currentVertex).setOk(true);
 			Set<E> outgoingEdges = ((FlexibleGraph<V, E>) graph).getOutgoingEdges(currentVertex);
 			for (E edge : outgoingEdges) {
-				targetVertex = graph.getEdgeTarget(edge);
-				processVertex(graph, dataTable,currentVertex, targetVertex, edge);
+				processVertex(currentVertex, edge);
 			}
 
-			currentVertex = getNextVertex(dataTable);
-			doSearch = isDijkstraFinished(dataTable);
-			foundShortestPath = endVertexData.getOk();
+			currentVertex = getNextVertex();
+			foundShortestPath = _closedSet.contains(endVertex);
 		}
 
 		if(foundShortestPath)
-			path = traceTakenPath(dataTable, endVertex);
+			_path = traceTakenPath();
 
-		return path;
+		return _path;
 	}
 
 	/**
@@ -53,14 +63,14 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 	 * @param startVertex Vertex from which the Dijkstra starts searching
 	 * @return A dataTable which can be used in the overlying Dijkstra implementation
 	 */
-	private Map<V, DijkstraDataTableEntry> createDijkstraDataTable(Graph<V, E> graph, V startVertex){
+	private Map<V, DijkstraDataTableEntry> createDijkstraDataTable(){
 		Map<V, DijkstraDataTableEntry> dataTable = new HashMap<>();
 
 		DijkstraDataTableEntry firstTableEntry = new DijkstraDataTableEntry();
-		firstTableEntry.setDistanceAndPredecessor(0, startVertex);
-		dataTable.put(startVertex, firstTableEntry);
-		Set<V> vertexSet = graph.vertexSet();
-		vertexSet.remove(startVertex);
+		firstTableEntry.setDistanceAndPredecessor(0, _startVertex);
+		dataTable.put(_startVertex, firstTableEntry);
+		Set<V> vertexSet = _graph.vertexSet();
+		vertexSet.remove(_startVertex);
 		for (V vertex : vertexSet) {
 			dataTable.put(vertex, new DijkstraDataTableEntry());
 		}
@@ -74,62 +84,36 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 	 * @param dataTable
 	 * @return Vertex to be used next
 	 */
-	private V getNextVertex(Map<V, DijkstraDataTableEntry> dataTable){
+	private V getNextVertex(){
+		// TODO make this safe
 		V nextVertex = null;
-		double minDistance = Double.MAX_VALUE;
-		Set<Map.Entry<V, DijkstraDataTableEntry>> dataTableEntries = dataTable.entrySet();
-		Iterator<Map.Entry<V, DijkstraDataTableEntry>> dataTableEntryIterator = dataTableEntries.iterator();
+		double minDistance = Double.POSITIVE_INFINITY;
+		Iterator<V> openSetIterator = _openSet.iterator();
 
-		Map.Entry<V, DijkstraDataTableEntry> currentEntry;
-		while(dataTableEntryIterator.hasNext()){
-			currentEntry = dataTableEntryIterator.next();
-			if(!currentEntry.getValue().getOk()){
-				double currentEntryDistance = currentEntry.getValue().getDistance();
-				if(currentEntryDistance < minDistance){
-					minDistance = currentEntryDistance;
-					nextVertex = currentEntry.getKey();
-				}
+		while(openSetIterator.hasNext()){
+			V currentVertex = openSetIterator.next();
+			double currentVertexDistance = _dataTable.get(currentVertex).getDistance();
+			if(currentVertexDistance < minDistance){
+				minDistance = currentVertexDistance;
+				nextVertex = currentVertex;
 			}
-
 		}
 		return nextVertex;
 	}
 	
-	private void processVertex(Graph<V, E> graph, Map<V, DijkstraDataTableEntry> dataTable,V currentVertex, V targetVertex, E edge){
+	private void processVertex(V currentVertex, E edge){
+		//TODO maybe isn't undirected safe
+		DijkstraDataTableEntry currentVertexData = _dataTable.get(currentVertex);
+		V targetVertex = _graph.getEdgeTarget(edge);
+		DijkstraDataTableEntry targetVertexData = _dataTable.get(targetVertex);
 
-		DijkstraDataTableEntry currentVertexData = dataTable.get(currentVertex);
-		DijkstraDataTableEntry targetVertexData = dataTable.get(targetVertex);
-		double distanceSum;
-		
-		targetVertex = graph.getEdgeTarget(edge);
-
-		if(!dataTable.get(targetVertex).getOk()){// If shortest path to currentVertex was not found yet
-			distanceSum = currentVertexData.getDistance()+graph.getEdgeWeight(edge);
+		if(!_closedSet.contains(targetVertex)){// If shortest path to currentVertex was not found yet
+			_openSet.add(targetVertex);
+			double distanceSum = currentVertexData.getDistance() + _graph.getEdgeWeight(edge);
 			if(distanceSum < targetVertexData.getDistance()){
 				targetVertexData.setDistanceAndPredecessor(distanceSum, currentVertex);
 			}
 		}
-	}
-
-	/**
-	 * Checks whether or not the given DijkstraDataTable is finished or still needs to be worked on.
-	 * 
-	 * @param dataTable of Dijkstra instance that is to be tested
-	 * @return true if Dijkstra is finished, false if not. To be exact, returns false if there is an entry within the dataTable 
-	 * 		   with an defined predeccesor that is also not Ok
-	 */
-	private boolean isDijkstraFinished(Map<V, DijkstraDataTableEntry> dataTable){
-		Set<Map.Entry<V, DijkstraDataTableEntry>> dataTableSet = dataTable.entrySet();
-		Iterator<Map.Entry<V, DijkstraDataTableEntry>> dataTableSetIterator = dataTableSet.iterator();
-		boolean isFinished = true;
-
-		while(dataTableSetIterator.hasNext() && isFinished){
-			Map.Entry<V, DijkstraDataTableEntry> dataTableEntry = dataTableSetIterator.next();
-			
-			isFinished = !(dataTableEntry.getValue().getOk() && (dataTableEntry.getValue().getPredecessor() == null));
-			//If there is an entry with an defined predeccesor that is also not Ok, Dijkstra is not finished
-			}
-		return isFinished;
 	}
 
 	/**
@@ -140,12 +124,14 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 	 * @param endVertex Vertex which the shortest path was requested for
 	 * @return Shortest path from startVertex to endVertex
 	 */
-	private List<V> traceTakenPath(Map<V, DijkstraDataTableEntry> dataTable, V endVertex){
+	private List<V> traceTakenPath(){
 		LinkedList<V> path = new LinkedList<>();
-		V currentVertex = endVertex;
-		while(dataTable.get(currentVertex).getDistance() != 0){
+		V currentVertex = _endVertex;
+		DijkstraDataTableEntry currentEntry = _dataTable.get(currentVertex);
+		while(currentEntry.getDistance() != 0 && !Double.isInfinite(currentEntry.getDistance())){
 			path.addFirst(currentVertex);
-			currentVertex = dataTable.get(currentVertex).getPredecessor();
+			currentVertex = _dataTable.get(currentVertex).getPredecessor();
+			currentEntry = _dataTable.get(currentVertex);
 		}
 		path.addFirst(currentVertex);
 		return path;
@@ -155,12 +141,10 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 	private class DijkstraDataTableEntry{
 		private double _distance;
 		private V _predecessor;
-		private boolean _ok;
 
 		public DijkstraDataTableEntry(){
-			_distance = Integer.MAX_VALUE;
+			_distance = Double.POSITIVE_INFINITY;
 			_predecessor = null;
-			_ok = false;
 		}
 
 		/**
@@ -175,20 +159,6 @@ public class DijkstraShortestPath<V, E> extends AbstractShortestPathAlgorithm<V,
 		 */
 		public V getPredecessor() {
 			return _predecessor;
-		}
-
-		/**
-		 * @return the _ok
-		 */
-		public boolean getOk() {
-			return _ok;
-		}
-
-		/**
-		 * @param _ok the _ok to set
-		 */
-		public void setOk(boolean _ok) {
-			this._ok = _ok;
 		}
 
 		/**

@@ -47,16 +47,15 @@ public class Prim_T {
 		VertexFinder<Vertex, Edge> vertexFinder = new RandomVertexFinder<>(_graph);
 		_primAlgorithm = new Prim<>(edgeFinder, vertexFinder);
 	}
-	
+
 	@Test
 	public void test(){
 		WeightedGraphTools<Vertex, Edge> graphTools = new WeightedGraphTools<>();
 		assert(_graph.vertexSet().size() == 4);
-		assert(_graph.edgeSet().size() == 6);
-		
+		assert(_graph.edgeSet().size() == 9);
+
 		Graph<Vertex, Edge> spanningTree = _primAlgorithm.createMinimalSpanningTree(_graph, Edge.class);
 		assert(spanningTree.vertexSet().containsAll(_graph.vertexSet()));
 		assert(graphTools.getEdgeWeightSum(spanningTree) == 6);
-		
 	}
 }

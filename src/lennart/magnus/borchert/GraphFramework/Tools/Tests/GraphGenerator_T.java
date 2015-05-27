@@ -13,7 +13,7 @@ import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 import lennart.magnus.borchert.GraphFramework.Tools.GraphGenerator;
 import lennart.magnus.borchert.GraphFramework.Tools.WeightedGraphTools;
-import lennart.magnus.borchert.GraphFramework.Tools.HeuristicGenerators.DijkstraPerfectHeuristicGenerator;
+import lennart.magnus.borchert.GraphFramework.Tools.HeuristicGenerator.DijkstraPerfectHeuristicGenerator;
 
 import org.junit.Before;
 import org.junit.Test;

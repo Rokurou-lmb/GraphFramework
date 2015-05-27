@@ -5,9 +5,10 @@ import java.util.Set;
 
 import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 
+import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-public class GraphTools<V, E extends DefaultWeightedEdge> {
+public class WeightedGraphTools<V, E extends DefaultWeightedEdge> {
 
 	/**
 	 * Returns the one Edge from sourceVertex to targetVertex with the lowest weight.
@@ -29,5 +30,14 @@ public class GraphTools<V, E extends DefaultWeightedEdge> {
 				lightestEdge = edge;
 		}
 		return lightestEdge;
+	}
+	
+	public double getEdgeWeightSum(Graph<V, E> graph){
+		double sum = 0.0;
+		Set<E> edgeSet = graph.edgeSet();
+		for (E edge : edgeSet) {
+			sum += graph.getEdgeWeight(edge);
+		}
+		return sum;
 	}
 }

@@ -12,7 +12,7 @@ import lennart.magnus.borchert.GraphFramework.Materials.Edge;
 import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 import lennart.magnus.borchert.GraphFramework.Tools.GraphGenerator;
-import lennart.magnus.borchert.GraphFramework.Tools.GraphTools;
+import lennart.magnus.borchert.GraphFramework.Tools.WeightedGraphTools;
 import lennart.magnus.borchert.GraphFramework.Tools.HeuristicGenerators.DijkstraPerfectHeuristicGenerator;
 
 import org.junit.Before;
@@ -44,7 +44,7 @@ public class GraphGenerator_T {
 	
 	@Test
 	public void DijkstraPerfectHeuristicGeneratorTest(){
-		GraphTools<Vertex, Edge> graphTool = new GraphTools<>();
+		WeightedGraphTools<Vertex, Edge> graphTool = new WeightedGraphTools<>();
 		DijkstraPerfectHeuristicGenerator<Vertex, Edge> heuristicGenerator = new DijkstraPerfectHeuristicGenerator<>();
 		Vertex endVertex = new Vertex("1");
 

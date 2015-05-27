@@ -13,14 +13,12 @@ import java.util.Set;
 /**
  * Created by Gery on 26.05.2015.
  */
-public class Kruskal implements MinimumSpanningTree{
+public class Kruskal implements MinimumSpanningTree,MinimalSpanningTreeAlgorithm{
 
-    private Graph<Vertex,Edge> graph;
     private Set<Edge> edgeSet;
     private double totalWeight;
 
     public Kruskal(Graph graph) {
-        this.graph = graph;
         edgeSet = new HashSet<>();
         UnionFind<Vertex> vertexes = new UnionFind<Vertex>(graph.vertexSet());
         Set<Edge> remainingEdges = new HashSet<>(graph.edgeSet());
@@ -61,14 +59,15 @@ public class Kruskal implements MinimumSpanningTree{
         return totalWeight;
     }
 
-    public Graph<Vertex, Edge> getMinimumSpanningTree() {
-        Graph result = new FlexibleGraph<>(false,true,Edge.class);
+    @Override
+    public Graph createMinimalSpanningTree(Graph graph, Class edgeClass) {
+        Graph result = new FlexibleGraph<>(false,true,edgeClass);
         for (Edge e : this.edgeSet){
-            Vertex s = graph.getEdgeSource(e);
-            Vertex t = graph.getEdgeTarget(e);
+            Vertex s = (Vertex)graph.getEdgeSource(e);
+            Vertex t = (Vertex)graph.getEdgeTarget(e);
             result.addVertex(s);
             result.addVertex(t);
-            result.addEdge(s,t,e);
+            result.addEdge(s, t, e);
         }
         return result;
     }

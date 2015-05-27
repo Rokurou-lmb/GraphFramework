@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +18,8 @@ import lennart.magnus.borchert.GraphFramework.Materials.Edge;
 import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 import lennart.magnus.borchert.GraphFramework.Tools.GraphGenerator;
+import lennart.magnus.borchert.GraphFramework.Tools.GraphTools;
+import lennart.magnus.borchert.GraphFramework.Tools.HeuristicGenerators.DijkstraPerfectHeuristicGenerator;
 
 import org.jgrapht.GraphPath;
 import org.junit.Before;
@@ -27,17 +28,19 @@ import org.junit.Test;
 public class ShortestPathAlgorithmImplementation_T {
 
 	private GraphGenerator _graphGenerator;
+	private DijkstraPerfectHeuristicGenerator<Vertex, Edge> _heuristicGenerator;
 	private GraphParser _parser;
 	private String _path;
 	private ShortestPathAlgorithm<Vertex, Edge> _aStarShortestPath;
 	private ShortestPathAlgorithm<Vertex, Edge> _dijkstraShortestPath;
-	ShortestPathAlgorithm<Vertex, Edge> _breadthFirstSearch;
+	private ShortestPathAlgorithm<Vertex, Edge> _breadthFirstSearch;
 
 	private FlexibleGraph<Vertex, Edge> _graph1;
 
 	@Before
 	public void init() throws IOException{
 		_graphGenerator = new GraphGenerator();
+		_heuristicGenerator = new DijkstraPerfectHeuristicGenerator<Vertex, Edge>();
 		_path = new File(".").getCanonicalPath()+"\\graphs\\";
 		_parser = new GraphParser();
 		_breadthFirstSearch = new BreadthFirstSearchShortestPath<>();
@@ -88,20 +91,21 @@ public class ShortestPathAlgorithmImplementation_T {
 
 	@Test
 	public void testBIG(){
-		List<Vertex> dijkstraShortestPathList;
+		GraphTools<Vertex, Edge> graphTool = new GraphTools<>();
 		double dijkstraDistance = 0;
 		double AStarDistance = 0;
 		double dijkstraDistanceSafe = 0;
-		List<Vertex> aStarShortestPathList;
 
 		FlexibleGraph<Vertex, Edge> graph = _graphGenerator.generateDirectedWeightedGraph(Edge.class, 100, 6000, 100);
 
 		Set<Vertex> bigVertexSet = graph.vertexSet();
 		List<Vertex> bigVertexList = new ArrayList<>();
 		bigVertexList.addAll(bigVertexSet);
-
+		
 		Vertex startVertex = bigVertexList.get(0);
 		Vertex endVertex = bigVertexList.get(bigVertexList.size()-1);
+		_heuristicGenerator.calculateHeuristic(graph, endVertex);
+
 
 		org.jgrapht.alg.DijkstraShortestPath<Vertex, Edge> dijkstraSafe = new org.jgrapht.alg.DijkstraShortestPath<>(graph, startVertex, endVertex);
 		GraphPath<Vertex, Edge> dijkstraPathSafe = dijkstraSafe.getPath();
@@ -114,15 +118,15 @@ public class ShortestPathAlgorithmImplementation_T {
 			}
 		}
 
-		dijkstraShortestPathList = _dijkstraShortestPath.findShortestPath(graph, startVertex, endVertex);
-		aStarShortestPathList = _aStarShortestPath.findShortestPath(graph, startVertex, endVertex);
+		List<Vertex> dijkstraShortestPathList = _dijkstraShortestPath.findShortestPath(graph, startVertex, endVertex);
+		List<Vertex> aStarShortestPathList = _aStarShortestPath.findShortestPath(graph, startVertex, endVertex);
 
 		for(int i = 0; i < dijkstraShortestPathList.size()-1; i++){
-			dijkstraDistance += findSmallestWeight(graph, graph.getAllEdges(dijkstraShortestPathList.get(i), dijkstraShortestPathList.get(i+1)));
+			dijkstraDistance += graph.getEdgeWeight(graphTool.findLightestEdge(graph, dijkstraShortestPathList.get(i), dijkstraShortestPathList.get(i+1)));
 		}
 
 		for(int i = 0; i < aStarShortestPathList.size()-1; i++){
-			AStarDistance += findSmallestWeight(graph, graph.getAllEdges(aStarShortestPathList.get(i), aStarShortestPathList.get(i+1)));
+			AStarDistance += graph.getEdgeWeight(graphTool.findLightestEdge(graph, aStarShortestPathList.get(i), aStarShortestPathList.get(i+1)));
 		}
 
 		assertEquals(dijkstraShortestPathList.size(),dijkstraSafeList.size());
@@ -131,20 +135,5 @@ public class ShortestPathAlgorithmImplementation_T {
 		dijkstraDistanceSafe = dijkstraPathSafe.getWeight();
 		assertEquals(dijkstraDistance,dijkstraDistanceSafe, 0.1);
 		assertEquals(AStarDistance,dijkstraDistanceSafe, 0.1);
-	}
-	
-	private double findSmallestWeight(FlexibleGraph<Vertex,Edge> graph, Set<Edge> edgeSet){
-		double smallestWeight = Double.POSITIVE_INFINITY;
-
-		Iterator<Edge> edgeSetIterator = edgeSet.iterator();
-		Edge edge;
-		double currentWeight;
-		while (edgeSetIterator.hasNext()) {
-			edge = edgeSetIterator.next();
-			currentWeight = graph.getEdgeWeight(edge);
-			if(currentWeight < smallestWeight)
-				smallestWeight = currentWeight;
-		}
-		return smallestWeight;
 	}
 }

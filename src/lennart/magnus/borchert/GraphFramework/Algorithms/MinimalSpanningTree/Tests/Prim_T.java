@@ -7,10 +7,9 @@ import java.io.IOException;
 
 import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.MinimalSpanningTreeAlgorithm;
 import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.Prim;
-import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.EdgeFinder.NextEdgeFinder;
+import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.EdgeFinder.FibonacciHeapEdgeFinder;
 import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.EdgeFinder.PriorityQueueEdgeFinder;
 import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.VertexFinder.RandomVertexFinder;
-import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.VertexFinder.VertexFinder;
 import lennart.magnus.borchert.GraphFramework.FileIO.FileFormatException;
 import lennart.magnus.borchert.GraphFramework.FileIO.GraphParser;
 import lennart.magnus.borchert.GraphFramework.Materials.Edge;
@@ -28,7 +27,10 @@ public class Prim_T {
 	private GraphParser _parser;
 	private FlexibleGraph<Vertex, Edge>_graph;
 	private MinimalSpanningTreeAlgorithm<Vertex, Edge> _primAlgorithm;
+	private MinimalSpanningTreeAlgorithm<Vertex, Edge> _primAlgorithmWithFibHeap;
 	private Graph<Vertex, Edge> _spanningTree;
+	private Graph<Vertex, Edge> _spanningTreeWithFibHeap;
+	
 
 	@Before
 	public void setUp(){
@@ -44,10 +46,10 @@ public class Prim_T {
 			e.printStackTrace();
 		}
 
-		NextEdgeFinder<Vertex, Edge> edgeFinder = new PriorityQueueEdgeFinder<>(_graph);
-		VertexFinder<Vertex, Edge> vertexFinder = new RandomVertexFinder<>(_graph);
-		_primAlgorithm = new Prim<>(edgeFinder, vertexFinder);
+		_primAlgorithm = new Prim<>(new PriorityQueueEdgeFinder<>(_graph), new RandomVertexFinder<>(_graph));
+		_primAlgorithmWithFibHeap = new Prim<>(new FibonacciHeapEdgeFinder<>(_graph), new RandomVertexFinder<>(_graph));
 		_spanningTree = _primAlgorithm.createMinimalSpanningTree(_graph, Edge.class);
+		_spanningTreeWithFibHeap = _primAlgorithmWithFibHeap.createMinimalSpanningTree(_graph, Edge.class);
 	}
 
 	@Test
@@ -65,5 +67,21 @@ public class Prim_T {
 	public void testSpanningTreeIsMinimal(){
 		WeightedGraphTools<Vertex, Edge> graphTools = new WeightedGraphTools<>();
 		assertEquals(6.0, graphTools.getEdgeWeightSum(_spanningTree), 0.1);
+	}
+
+	@Test
+	public void testSpanningTreeContainsAllVerticesWithFibHeap(){
+		assert(_spanningTreeWithFibHeap.vertexSet().containsAll(_graph.vertexSet()));
+	}
+
+	@Test
+	public void testSpanningTreeIsMinimalWithFibHeap(){
+		WeightedGraphTools<Vertex, Edge> graphTools = new WeightedGraphTools<>();
+		assertEquals(6.0, graphTools.getEdgeWeightSum(_spanningTreeWithFibHeap), 0.1);
+	}
+	
+	@Test
+	public void testImplementationsAgainstEachother(){
+		assert(_spanningTree.equals(_spanningTreeWithFibHeap));
 	}
 }

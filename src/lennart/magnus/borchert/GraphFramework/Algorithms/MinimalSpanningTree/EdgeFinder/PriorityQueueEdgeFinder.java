@@ -1,7 +1,6 @@
 package lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.EdgeFinder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
 
@@ -16,30 +15,35 @@ public class PriorityQueueEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> 
 	}
 
 	private PriorityQueue<E> _priorityQueue;
-	private Graph<V, E> _graph;
-	private List<E> _processedEdges;
 
 	@Override
 	protected void createPriorityQueue(Graph<V, E> graph) {
+		super.createPriorityQueue(graph);
 		EdgeComparator<V, E> comparator = new EdgeComparator<>(graph);
 		_priorityQueue = new PriorityQueue<>(comparator);
-		_graph = graph;
-		_processedEdges = new ArrayList<E>();
-	}
-
-	public void addEdgesToPriorityQueue(V vertex){
-		_priorityQueue.addAll(_graph.edgesOf(vertex));
 	}
 
 	@Override
 	public E getNextEdge(Set<V> spanningTreeVertexSet) {
-		E nextEdge = _priorityQueue.poll();
-		while(_priorityQueue.size() > 0  &&
-				(_processedEdges.contains(nextEdge) || _graph.getEdgeSource(nextEdge).equals(_graph.getEdgeTarget(nextEdge)))){
-
-				nextEdge = _priorityQueue.poll();
-		}
+		E nextEdge;
+		V sourceVertex;
+		V targetVertex;
+		Set<V> edgeVertices = new HashSet<>();
+		do{
+			nextEdge = _priorityQueue.poll();
+			sourceVertex = _graph.getEdgeSource(nextEdge);
+			targetVertex = _graph.getEdgeTarget(nextEdge);
+			edgeVertices.clear();
+			edgeVertices.add(sourceVertex);
+			edgeVertices.add(targetVertex);
+		}while(_priorityQueue.size() > 0 && (sourceVertex.equals(targetVertex) || spanningTreeVertexSet.containsAll(edgeVertices)));
+		//Solange die Liste nicht leer ist && (die Kante eine Schleife ist || beide Knoten bereits im Spannbaum sind)
 		_processedEdges.add(nextEdge);
 		return nextEdge;
+	}
+
+	@Override
+	protected void addEntryToPriorityQueue(E edge) {
+		_priorityQueue.add(edge);
 	}
 }

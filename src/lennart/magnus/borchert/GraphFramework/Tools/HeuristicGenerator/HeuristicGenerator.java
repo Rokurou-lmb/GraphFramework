@@ -1,4 +1,4 @@
-package lennart.magnus.borchert.GraphFramework.Tools.HeuristicGenerators;
+package lennart.magnus.borchert.GraphFramework.Tools.HeuristicGenerator;
 
 import org.jgrapht.Graph;
 

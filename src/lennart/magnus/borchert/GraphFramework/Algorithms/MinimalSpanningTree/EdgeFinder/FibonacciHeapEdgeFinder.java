@@ -2,10 +2,16 @@ package lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.Ed
 
 import java.util.Set;
 
+import lennart.magnus.borchert.GraphFramework.Materials.EdgeComparator;
+
 import org.jgrapht.Graph;
+import org.jgrapht.util.FibonacciHeap;
+import org.jgrapht.util.FibonacciHeapNode;
 
 public class FibonacciHeapEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> implements NextEdgeFinder<V, E>{
 
+	private FibonacciHeap<E> _fibonacciHeap;
+	private Graph<V, E> _graph;
 
 	public FibonacciHeapEdgeFinder(Graph<V, E> graph) {
 		super(graph);
@@ -13,7 +19,13 @@ public class FibonacciHeapEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> 
 
 	@Override
 	protected void createPriorityQueue(Graph<V, E> graph) {
-		// TODO Auto-generated method stub
+		_fibonacciHeap = new FibonacciHeap();
+		_graph = graph;
+		
+		Set<E> edgeSet = graph.edgeSet();
+		for (E edge : edgeSet) {
+			_fibonacciHeap.insert(new FibonacciHeapNode<E>(edge), graph.getEdgeWeight(edge));
+		}
 		
 	}
 

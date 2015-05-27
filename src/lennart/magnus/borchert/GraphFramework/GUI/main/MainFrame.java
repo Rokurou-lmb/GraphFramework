@@ -1,7 +1,11 @@
 package lennart.magnus.borchert.GraphFramework.GUI.main;
 
 
+import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.EdgeFinder.PriorityQueueEdgeFinder;
 import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.Kruskal;
+import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.MinimalSpanningTreeAlgorithm;
+import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.Prim;
+import lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.VertexFinder.RandomVertexFinder;
 import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.AStarShortestPath;
 import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.BreadthFirstSearchShortestPath;
 import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.DijkstraShortestPath;
@@ -13,11 +17,13 @@ import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.*;
 
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgrapht.Graph;
+import org.jgrapht.alg.interfaces.MinimumSpanningTree;
 
 public class MainFrame {
 
@@ -99,6 +105,16 @@ public class MainFrame {
                             msg += "("+(graph.getEdgeSource(e)+","+graph.getEdgeTarget(e))+")";
                         }
                         JOptionPane.showMessageDialog(this._ui.getFrame(), "Der minimale Spannbaum hat volgende Kanten: "+msg, "Erfolg", JOptionPane.PLAIN_MESSAGE);
+                        break;
+                    case "prim":
+                        System.out.println("Prim start");
+                        Prim p = new Prim<>(new PriorityQueueEdgeFinder(graph),new RandomVertexFinder(graph));
+                        String message = "";
+                        for (Edge e : (Set<Edge>)p.createMinimalSpanningTree(graph,Edge.class).edgeSet()){
+                            message += "("+(graph.getEdgeSource(e)+","+graph.getEdgeTarget(e))+")";
+                        }
+                        JOptionPane.showMessageDialog(this._ui.getFrame(), "Der minimale Spannbaum hat volgende Kanten: "+message, "Erfolg", JOptionPane.PLAIN_MESSAGE);
+                        break;
                 }
 
 

@@ -52,12 +52,18 @@ public class FileChooser extends Talker{
             talk("kruskal");
         });
 
+        JMenuItem primButton = new JMenuItem("Prim");
+        primButton.addActionListener(e -> {
+            talk("prim");
+        });
+
         JMenu algorithmMenu = new JMenu("algorithms");
         algorithmMenu.add(bfsButton);
         algorithmMenu.add(dijButton);
         algorithmMenu.add(aStarButton);
         algorithmMenu.add(new JSeparator());
         algorithmMenu.add(kruskalButton);
+        algorithmMenu.add(primButton);
         _ui = new FileChooserUI(items,algorithmMenu);
     }
 

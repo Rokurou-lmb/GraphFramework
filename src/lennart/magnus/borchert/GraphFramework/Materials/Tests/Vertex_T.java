@@ -24,7 +24,7 @@ public class Vertex_T {
 		Vertex v5 = new Vertex("1", 3);
 		
 		assertTrue(!(v3.equals(_v1)));
-		assertEquals(10, v4.getAttribute());
+		assertEquals(10, v4.getAttribute(), 0.1);
 		assertTrue(v5.equals(_v1));
 		assertNotEquals(v5.getAttribute(), _v2.getAttribute());
 	}

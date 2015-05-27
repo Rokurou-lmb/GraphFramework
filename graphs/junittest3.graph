@@ -1,0 +1,7 @@
+#weighted
+a,b::1
+b,c::2
+b,d::3
+c,a::6
+c,d::5
+d,a::4

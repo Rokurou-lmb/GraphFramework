@@ -1,4 +1,4 @@
-package lennart.magnus.borchert.GraphFramework.Tools;
+package lennart.magnus.borchert.GraphFramework.Tools.HeuristicGenerators;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 import org.jgrapht.Graph;
 
-public class DijkstraPerfectHeuristicGenerator<V extends Vertex, E> {
+public class DijkstraPerfectHeuristicGenerator<V extends Vertex, E> implements HeuristicGenerator<V, E>{
 	Graph<V, E> _graph;
 	Set<V> _openSet;
 	Set<V> _closedSet;
@@ -68,7 +68,6 @@ public class DijkstraPerfectHeuristicGenerator<V extends Vertex, E> {
 	/**
 	 * Returns the next Vertex to be used in the DijkstraShortestPath implementation.
 	 * 
-	 * @param dataTable
 	 * @return Vertex to be used next
 	 */
 	private V getNextVertex(){

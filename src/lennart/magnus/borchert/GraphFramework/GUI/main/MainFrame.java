@@ -95,7 +95,7 @@ public class MainFrame {
                         System.out.println("Kruskal start");
                         Kruskal k = new Kruskal(this.graph);
                         String msg = "";
-                        for (Edge e : k.createSpanningTree()){
+                        for (Edge e : k.getMinimumSpanningTreeEdgeSet()){
                             msg += "("+(graph.getEdgeSource(e)+","+graph.getEdgeTarget(e))+")";
                         }
                         JOptionPane.showMessageDialog(this._ui.getFrame(), "Der minimale Spannbaum hat volgende Kanten: "+msg, "Erfolg", JOptionPane.PLAIN_MESSAGE);

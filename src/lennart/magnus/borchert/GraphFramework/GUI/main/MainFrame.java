@@ -21,6 +21,7 @@ import java.util.Set;
 
 import javax.swing.*;
 
+import lennart.magnus.borchert.GraphFramework.Tools.WeightedGraphTools;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.interfaces.MinimumSpanningTree;
@@ -104,16 +105,17 @@ public class MainFrame {
                         for (Edge e : k.getMinimumSpanningTreeEdgeSet()){
                             msg += "("+(graph.getEdgeSource(e)+","+graph.getEdgeTarget(e))+")";
                         }
-                        JOptionPane.showMessageDialog(this._ui.getFrame(), "Der minimale Spannbaum hat volgende Kanten: "+msg, "Erfolg", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(this._ui.getFrame(), "Der minimale Spannbaum hat volgende Kanten: "+msg+"\nSumme der Kantengewichte: "+k.getMinimumSpanningTreeTotalWeight(), "Erfolg", JOptionPane.PLAIN_MESSAGE);
                         break;
                     case "prim":
                         System.out.println("Prim start");
                         Prim p = new Prim<>(new PriorityQueueEdgeFinder(graph),new RandomVertexFinder(graph));
+                        Graph minSpan = p.createMinimalSpanningTree(graph,Edge.class);
                         String message = "";
-                        for (Edge e : (Set<Edge>)p.createMinimalSpanningTree(graph,Edge.class).edgeSet()){
+                        for (Edge e : (Set<Edge>)minSpan.edgeSet()){
                             message += "("+(graph.getEdgeSource(e)+","+graph.getEdgeTarget(e))+")";
                         }
-                        JOptionPane.showMessageDialog(this._ui.getFrame(), "Der minimale Spannbaum hat volgende Kanten: "+message, "Erfolg", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(this._ui.getFrame(), "Der minimale Spannbaum hat volgende Kanten: "+message+"\nSumme der Kantengewichte: "+new WeightedGraphTools<Vertex,Edge>().getEdgeWeightSum(minSpan), "Erfolg", JOptionPane.PLAIN_MESSAGE);
                         break;
                 }
 

@@ -8,6 +8,14 @@ import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 
 import org.jgrapht.Graph;
 
+/**
+ * 
+ * 
+ * @author Lenno
+ *
+ * @param <V> the used Vertex class
+ * @param <E> the used Edge class
+ */
 public class Prim<V, E> implements MinimalSpanningTreeAlgorithm<V, E>{
 	
 	private NextEdgeFinder<V, E> _edgeFinder;
@@ -26,6 +34,8 @@ public class Prim<V, E> implements MinimalSpanningTreeAlgorithm<V, E>{
 		_vertexFinder = vertexFinder;
 	}
 
+
+
 	@Override
 	public Graph<V, E> createMinimalSpanningTree(Graph<V, E> graph, Class<E> edgeClass) {
 		_spanningTree = new FlexibleGraph<>(false, true, edgeClass);
@@ -40,6 +50,11 @@ public class Prim<V, E> implements MinimalSpanningTreeAlgorithm<V, E>{
 		return _spanningTree;
 	}
 	
+	/**
+	 * Adds the given Edge and one of its incident vertices, which wasn't part of the spanning tree before, to the spanning tree.
+	 * 
+	 * @param edge which to add to the spanning tree.
+	 */
 	private void addEdgeToTree(E edge){
 		Set<V> spanningTreeVertexSet = _spanningTree.vertexSet();
 		V sourceVertex = _graph.getEdgeSource(edge);

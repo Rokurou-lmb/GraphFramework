@@ -8,6 +8,15 @@ import lennart.magnus.borchert.GraphFramework.Materials.EdgeComparator;
 
 import org.jgrapht.Graph;
 
+/**
+ * This implementation makes use of java.util.PriorityQueue
+ * 
+ * @author Lenno
+ *
+ * @param <V> the used Vertex class
+ * @param <E> the used Edge class
+ * 
+ */
 public class PriorityQueueEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> {
 	
 	public PriorityQueueEdgeFinder(Graph<V, E> graph) {
@@ -17,9 +26,9 @@ public class PriorityQueueEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> 
 	private PriorityQueue<E> _priorityQueue;
 
 	@Override
-	protected void createPriorityQueue(Graph<V, E> graph) {
-		super.createPriorityQueue(graph);
-		EdgeComparator<V, E> comparator = new EdgeComparator<>(graph);
+	protected void createPriorityQueue() {
+		super.createPriorityQueue();
+		EdgeComparator<V, E> comparator = new EdgeComparator<>(_graph);
 		_priorityQueue = new PriorityQueue<>(comparator);
 	}
 
@@ -31,8 +40,10 @@ public class PriorityQueueEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> 
 		Set<V> edgeVertices = new HashSet<>();
 		do{
 			nextEdge = _priorityQueue.poll();
+
 			sourceVertex = _graph.getEdgeSource(nextEdge);
 			targetVertex = _graph.getEdgeTarget(nextEdge);
+
 			edgeVertices.clear();
 			edgeVertices.add(sourceVertex);
 			edgeVertices.add(targetVertex);

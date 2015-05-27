@@ -7,6 +7,14 @@ import org.jgrapht.Graph;
 import org.jgrapht.util.FibonacciHeap;
 import org.jgrapht.util.FibonacciHeapNode;
 
+/**
+ * This implementation makes use of org.jgrapht.util.FibonacciHeap
+ * 
+ * @author Lenno
+ *
+ * @param <V> the used Vertex class
+ * @param <E> the used Edge class
+ */
 public class FibonacciHeapEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> implements NextEdgeFinder<V, E>{
 
 	private FibonacciHeap<E> _fibonacciHeap;
@@ -16,8 +24,8 @@ public class FibonacciHeapEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> 
 	}
 
 	@Override
-	protected void createPriorityQueue(Graph<V, E> graph) {
-		super.createPriorityQueue(graph);
+	protected void createPriorityQueue() {
+		super.createPriorityQueue();
 		_fibonacciHeap = new FibonacciHeap<>();
 	}
 

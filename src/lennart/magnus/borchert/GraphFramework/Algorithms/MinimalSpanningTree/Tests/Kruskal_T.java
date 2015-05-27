@@ -53,7 +53,7 @@ public class Kruskal_T {
         assert(_graph.vertexSet().size() == 4);
         assert(_graph.edgeSet().size() == 6);
 
-        Graph<Vertex, Edge> spanningTree = _kruskal.getMinimumSpanningTree();
+        Graph<Vertex, Edge> spanningTree = _kruskal.createMinimalSpanningTree(_graph,Edge.class);
 
         assert(spanningTree.vertexSet().containsAll(_graph.vertexSet()));
         assert(graphTools.getEdgeWeightSum(spanningTree) == 6);

@@ -129,10 +129,8 @@ public class ShortestPathAlgorithmImplementation_T {
 			AStarDistance += graph.getEdgeWeight(graphTool.findLightestEdge(graph, aStarShortestPathList.get(i), aStarShortestPathList.get(i+1)));
 		}
 
-		assertEquals(dijkstraShortestPathList.size(),dijkstraSafeList.size());
-		assertEquals(aStarShortestPathList.size(),dijkstraSafeList.size());
-
 		dijkstraDistanceSafe = dijkstraPathSafe.getWeight();
+		aStarShortestPathList = _aStarShortestPath.findShortestPath(graph, startVertex, endVertex);
 		assertEquals(dijkstraDistance,dijkstraDistanceSafe, 0.1);
 		assertEquals(AStarDistance,dijkstraDistanceSafe, 0.1);
 	}

@@ -1,6 +1,7 @@
 package lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.EdgeFinder;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Set;
 
@@ -16,47 +17,29 @@ public class PriorityQueueEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> 
 
 	private PriorityQueue<E> _priorityQueue;
 	private Graph<V, E> _graph;
+	private List<E> _processedEdges;
 
 	@Override
 	protected void createPriorityQueue(Graph<V, E> graph) {
 		EdgeComparator<V, E> comparator = new EdgeComparator<>(graph);
 		_priorityQueue = new PriorityQueue<>(comparator);
 		_graph = graph;
+		_processedEdges = new ArrayList<E>();
+	}
 
-		Set<E> edgeSet = graph.edgeSet();
-		for (E edge : edgeSet) {
-			_priorityQueue.add(edge);
-		}
+	public void addEdgesToPriorityQueue(V vertex){
+		_priorityQueue.addAll(_graph.edgesOf(vertex));
 	}
 
 	@Override
 	public E getNextEdge(Set<V> spanningTreeVertexSet) {
-		E nextEdge = null;
-		@SuppressWarnings("unchecked")
-		E[] edgeArray = (E[])_priorityQueue.toArray();
-		EdgeComparator<V, E> edgeComparator = new EdgeComparator<>(_graph);
-		Arrays.sort(edgeArray, edgeComparator);
-		boolean foundEdge = false;
-		for(int i = 0; i < edgeArray.length && !foundEdge; i++){
-			E currentEdge = edgeArray[i];
-			if(spanningTreeVertexSet.contains(_graph.getEdgeSource(currentEdge))){
-				if(spanningTreeVertexSet.contains(_graph.getEdgeTarget(currentEdge))){
-					_priorityQueue.remove(currentEdge);
-				} else {
-					nextEdge = currentEdge;
-					_priorityQueue.remove(currentEdge);
-					foundEdge = true;
-				}
-			} else if(spanningTreeVertexSet.contains(_graph.getEdgeTarget(currentEdge))){
-				if(spanningTreeVertexSet.contains(_graph.getEdgeSource(currentEdge))){
-					_priorityQueue.remove(currentEdge);
-				} else {
-					nextEdge = currentEdge;
-					_priorityQueue.remove(currentEdge);
-					foundEdge = true;
-				}
-			}
+		E nextEdge = _priorityQueue.poll();
+		while(_priorityQueue.size() > 0  &&
+				(_processedEdges.contains(nextEdge) || _graph.getEdgeSource(nextEdge).equals(_graph.getEdgeTarget(nextEdge)))){
+
+				nextEdge = _priorityQueue.poll();
 		}
+		_processedEdges.add(nextEdge);
 		return nextEdge;
 	}
 }

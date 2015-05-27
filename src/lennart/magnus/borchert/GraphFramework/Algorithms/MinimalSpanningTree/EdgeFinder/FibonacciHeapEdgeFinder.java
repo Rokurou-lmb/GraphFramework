@@ -2,8 +2,6 @@ package lennart.magnus.borchert.GraphFramework.Algorithms.MinimalSpanningTree.Ed
 
 import java.util.Set;
 
-import lennart.magnus.borchert.GraphFramework.Materials.EdgeComparator;
-
 import org.jgrapht.Graph;
 import org.jgrapht.util.FibonacciHeap;
 import org.jgrapht.util.FibonacciHeapNode;
@@ -35,4 +33,9 @@ public class FibonacciHeapEdgeFinder<V, E> extends AbstractNextEdgeFinder<V, E> 
 		return null;
 	}
 
+	@Override
+	public void addEdgesToPriorityQueue(V vertex) {
+		// TODO Auto-generated method stub
+		
+	}
 }

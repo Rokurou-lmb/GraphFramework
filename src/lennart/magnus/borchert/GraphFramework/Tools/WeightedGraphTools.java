@@ -7,7 +7,7 @@ import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-public class GraphTools<V, E extends DefaultWeightedEdge> {
+public class WeightedGraphTools<V, E extends DefaultWeightedEdge> {
 
 	/**
 	 * Returns the one Edge from sourceVertex to targetVertex with the lowest weight.

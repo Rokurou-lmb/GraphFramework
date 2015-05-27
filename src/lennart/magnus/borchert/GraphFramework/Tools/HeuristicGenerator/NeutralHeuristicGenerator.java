@@ -15,5 +15,4 @@ public class NeutralHeuristicGenerator<V extends Vertex, E> implements Heuristic
 			vertex.setAttribute(0);
 		}
 	}
-
 }

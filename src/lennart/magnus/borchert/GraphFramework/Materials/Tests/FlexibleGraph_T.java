@@ -45,7 +45,7 @@ public class FlexibleGraph_T {	// TODO Expand tests
 		_graph2.addVertex(_v2);
 		_graph2.addEdge(_v2, _v1);
 
-		_path = new File(".").getCanonicalPath()+"\\graphs\\junittest2.graph";
+		_path = new File(".").getCanonicalPath()+"\\graphs\\junitTestGraphs\\junittest2.graph";
 		_parser = new GraphParser();
 		_graph3 = _parser.parse(_path);
 	}

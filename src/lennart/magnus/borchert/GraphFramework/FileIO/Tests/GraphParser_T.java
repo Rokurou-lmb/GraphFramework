@@ -28,7 +28,7 @@ public class GraphParser_T {
 	@Before
 	public void init() {
 		try {
-			_path = new File(".").getCanonicalPath()+"\\graphs\\junittest.graph";
+			_path = new File(".").getCanonicalPath()+"\\graphs\\junitTestGraphs\\junittest.graph";
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

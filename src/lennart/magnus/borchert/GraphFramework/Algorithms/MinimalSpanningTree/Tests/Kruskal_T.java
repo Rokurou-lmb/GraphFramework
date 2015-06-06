@@ -32,7 +32,7 @@ public class Kruskal_T {
     public void setUp(){
         _parser = new GraphParser();
         try {
-            _path = new File(".").getCanonicalPath()+"\\graphs\\junittest3.graph";
+            _path = new File(".").getCanonicalPath()+"\\graphs\\junitTestGraphs\\junittest3.graph";
             try {
                 _graph = _parser.parse(_path);
             } catch (FileFormatException e) {

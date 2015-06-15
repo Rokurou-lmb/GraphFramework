@@ -1,9 +1,9 @@
-package lennart.magnus.borchert.GraphFramework.Algorithms.EulerCircle;
+package lennart.magnus.borchert.GraphFramework.Algorithms.EulerTour;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.GraphPathImpl;
 
-public class HierholzerEulerCircle<V, E> implements EulerCircleAlgorithm<V, E> {
+public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 
 	@Override
 	public GraphPathImpl<V, E> findEulerCircle(Graph graph) {

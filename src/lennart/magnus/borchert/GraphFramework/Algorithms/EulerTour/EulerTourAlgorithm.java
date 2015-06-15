@@ -1,4 +1,4 @@
-package lennart.magnus.borchert.GraphFramework.Algorithms.EulerCircle;
+package lennart.magnus.borchert.GraphFramework.Algorithms.EulerTour;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.GraphPathImpl;
@@ -10,7 +10,7 @@ import org.jgrapht.graph.GraphPathImpl;
  * @param <V> the used Vertex class
  * @param <E> the used Edge class
  */
-public interface EulerCircleAlgorithm<V, E> {
+public interface EulerTourAlgorithm<V, E> {
 
 	/**
 	 * 

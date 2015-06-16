@@ -61,24 +61,27 @@ public class GraphGenerator {
 	private void fillGraphRandomly(FlexibleGraph<Vertex, Edge> graph, int vertexCount, int edgeCount, int edgeWeightUpperLimit){
 
 		List<Vertex> vertexList= new ArrayList<>();
-		Random randomVertexNumberGenerator = new Random();
-		IntStream vertexNumberStream = randomVertexNumberGenerator.ints(edgeCount*2, 0, vertexCount);
-		PrimitiveIterator.OfInt vertexNumberIterator = vertexNumberStream.iterator();
-
-		Random randomWeightGenerator = new Random();
-		IntStream weightStream = randomWeightGenerator.ints(edgeCount, 1, edgeWeightUpperLimit);
-		PrimitiveIterator.OfInt weightIterator = weightStream.iterator();
-
 		for(int i = 0; i < vertexCount; i++){
 			Vertex vertex = new Vertex(Integer.toString(i));
 			graph.addVertex(vertex);
 			vertexList.add(vertex);
 		}
-		Edge edge;
-		for(int j = 0; j < edgeCount; j++){
-			edge = new Edge();
-			graph.addEdge(vertexList.get(vertexNumberIterator.nextInt()), vertexList.get(vertexNumberIterator.nextInt()), edge);
-			graph.setEdgeWeight(edge, weightIterator.nextInt());
+
+		if(edgeCount > 0) {
+			Random randomVertexNumberGenerator = new Random();
+			IntStream vertexNumberStream = randomVertexNumberGenerator.ints(edgeCount*2, 0, vertexCount);
+			PrimitiveIterator.OfInt vertexNumberIterator = vertexNumberStream.iterator();
+	
+			Random randomWeightGenerator = new Random();
+			IntStream weightStream = randomWeightGenerator.ints(edgeCount, 1, edgeWeightUpperLimit);
+			PrimitiveIterator.OfInt weightIterator = weightStream.iterator();
+	
+			Edge edge;
+			for(int j = 0; j < edgeCount; j++){
+				edge = new Edge();
+				graph.addEdge(vertexList.get(vertexNumberIterator.nextInt()), vertexList.get(vertexNumberIterator.nextInt()), edge);
+				graph.setEdgeWeight(edge, weightIterator.nextInt());
+			}
 		}
 	}
 
@@ -90,59 +93,62 @@ public class GraphGenerator {
 	 */
 	private void fillEulerGraph(FlexibleGraph<Vertex, Edge> graph, int vertexCount, int edgeCount){
 
-		Random rNG = new Random();
-		IntStream vertexNumberStream = rNG.ints(edgeCount*3, 0, vertexCount);
-		PrimitiveIterator.OfInt vertexNumberIterator = vertexNumberStream.iterator();
-
-		List<Vertex> unevenDegreeList = new ArrayList<>();
-		List<Vertex> joinedVertexList = new ArrayList<>();
 		List<Vertex> vertexList = new ArrayList<>();
-
 		for (int i = 0; i < vertexCount; i++) {
 			Vertex vertex = new Vertex(Integer.toString(i));
 			graph.addVertex(vertex);
 			vertexList.add(vertex);
 		}
-		joinedVertexList.add(new Vertex("0")); //This isn't completly unprejudiced
 
-		Vertex sourceVertex;
-
-		//while not all vertices are connected we have to make sure that all edges stay connected with eachother.
-		//edgeCount-2 so we can make sure, that the structure is correct
-		int addedEdgeCount = 0;
-		for(; joinedVertexList.size() < vertexList.size() && addedEdgeCount < edgeCount - 2; addedEdgeCount++){
-
-			sourceVertex = joinedVertexList.get(rNG.nextInt(joinedVertexList.size()));
-			Vertex targetVertex = addEdgeToEulerGraph(rNG, vertexNumberIterator, graph, unevenDegreeList, sourceVertex, vertexList);
-
-			if(!joinedVertexList.contains(targetVertex))
-				joinedVertexList.add(targetVertex);
-		}
-
-		//When all vertices are connected we can choose freely
-		for (; addedEdgeCount < edgeCount - 2; addedEdgeCount++) {
-			sourceVertex = vertexList.get(vertexNumberIterator.nextInt());
-			addEdgeToEulerGraph(rNG, vertexNumberIterator, graph, unevenDegreeList, sourceVertex, vertexList);
-		}
-
-		switch(unevenDegreeList.size()){
-			case(0): //The graph already is an eulergraph but we still need to insert 2 additional edges
-				Vertex randomVertex1 = vertexList.get(rNG.nextInt(vertexList.size()));
-				Vertex randomVertex2 = vertexList.get(rNG.nextInt(vertexList.size()));
-				graph.addEdge(randomVertex1, randomVertex2);
-				graph.addEdge(randomVertex2, randomVertex1);
-				break;
-			case(2): //The graph is not an eulergraph but it contains an eulerpath, we only need to connect the loose ends via an intermediate
-				Vertex middleVertex = vertexList.get(rNG.nextInt(vertexList.size()));
-				graph.addEdge(unevenDegreeList.remove(0), middleVertex);
-				graph.addEdge(middleVertex, unevenDegreeList.remove(0));
-				break;
-			case(4): //The graph has no eulerpath but all we need to do is connect the 4 lose ends to create an eulertour and therefore finish the eulergraph
-				graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
-				graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
-				break;
-			default: //Debug usage only, should be properly tested separately
-				throw new IllegalStateException("The generated graph didn't conform to its rules, the generation Implementation is faulty.");
+		if(edgeCount > 0){
+			Random rNG = new Random();
+			IntStream vertexNumberStream = rNG.ints(edgeCount*3, 0, vertexCount);
+			PrimitiveIterator.OfInt vertexNumberIterator = vertexNumberStream.iterator();
+	
+			List<Vertex> unevenDegreeList = new ArrayList<>();
+			List<Vertex> joinedVertexList = new ArrayList<>();
+	
+			joinedVertexList.add(new Vertex("0")); //This isn't completly unprejudiced
+	
+			Vertex sourceVertex;
+	
+			//while not all vertices are connected we have to make sure that all edges stay connected with eachother.
+			//edgeCount-2 so we can make sure, that the structure is correct
+			int addedEdgeCount = 0;
+			for(; joinedVertexList.size() < vertexList.size() && addedEdgeCount < edgeCount - 2; addedEdgeCount++){
+	
+				sourceVertex = joinedVertexList.get(rNG.nextInt(joinedVertexList.size()));
+				Vertex targetVertex = addEdgeToEulerGraph(rNG, vertexNumberIterator, graph, unevenDegreeList, sourceVertex, vertexList);
+	
+				if(!joinedVertexList.contains(targetVertex))
+					joinedVertexList.add(targetVertex);
+			}
+	
+			//When all vertices are connected we can choose freely
+			for (; addedEdgeCount < edgeCount - 2; addedEdgeCount++) {
+				sourceVertex = vertexList.get(vertexNumberIterator.nextInt());
+				addEdgeToEulerGraph(rNG, vertexNumberIterator, graph, unevenDegreeList, sourceVertex, vertexList);
+			}
+	
+			switch(unevenDegreeList.size()){
+				case(0): //The graph already is an eulergraph but we still need to insert 2 additional edges
+					Vertex randomVertex1 = vertexList.get(rNG.nextInt(vertexList.size()));
+					Vertex randomVertex2 = vertexList.get(rNG.nextInt(vertexList.size()));
+					graph.addEdge(randomVertex1, randomVertex2);
+					graph.addEdge(randomVertex2, randomVertex1);
+					break;
+				case(2): //The graph is not an eulergraph but it contains an eulerpath, we only need to connect the loose ends via an intermediate
+					Vertex middleVertex = vertexList.get(rNG.nextInt(vertexList.size()));
+					graph.addEdge(unevenDegreeList.remove(0), middleVertex);
+					graph.addEdge(middleVertex, unevenDegreeList.remove(0));
+					break;
+				case(4): //The graph has no eulerpath but all we need to do is connect the 4 lose ends to create an eulertour and therefore finish the eulergraph
+					graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
+					graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
+					break;
+				default: //Debug usage only, should be properly tested separately
+					throw new IllegalStateException("The generated graph didn't conform to its rules, the generation Implementation is faulty.");
+			}
 		}
 	}
 

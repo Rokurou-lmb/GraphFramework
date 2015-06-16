@@ -91,7 +91,7 @@ public class GraphGenerator {
 	private void fillEulerGraph(FlexibleGraph<Vertex, Edge> graph, int vertexCount, int edgeCount){
 
 		Random rNG = new Random();
-		IntStream vertexNumberStream = rNG.ints(edgeCount*2, 0, vertexCount);
+		IntStream vertexNumberStream = rNG.ints(edgeCount*3, 0, vertexCount);
 		PrimitiveIterator.OfInt vertexNumberIterator = vertexNumberStream.iterator();
 
 		List<Vertex> unevenDegreeList = new ArrayList<>();
@@ -103,10 +103,9 @@ public class GraphGenerator {
 			graph.addVertex(vertex);
 			vertexList.add(vertex);
 		}
-		joinedVertexList.add(new Vertex("0")); //This isn't completley unprejudiced
+		joinedVertexList.add(new Vertex("0")); //This isn't completly unprejudiced
 
 		Vertex sourceVertex;
-		Vertex targetVertex;
 
 		//while not all vertices are connected we have to make sure that all edges stay connected with eachother.
 		//edgeCount-2 so we can make sure, that the structure is correct
@@ -114,38 +113,50 @@ public class GraphGenerator {
 		for(; joinedVertexList.size() < vertexList.size() && addedEdgeCount < edgeCount - 2; addedEdgeCount++){
 
 			sourceVertex = joinedVertexList.get(rNG.nextInt(joinedVertexList.size()));
-			if(unevenDegreeList.size() > 2){
-				targetVertex = unevenDegreeList.get(rNG.nextInt(unevenDegreeList.size()));
-			} else {
-				targetVertex = vertexList.get(vertexNumberIterator.nextInt());
-			}
-			graph.addEdge(sourceVertex, targetVertex);
-			updateDegreeList(unevenDegreeList, sourceVertex, targetVertex);
+			Vertex targetVertex = addEdgeToEulerGraph(rNG, vertexNumberIterator, graph, unevenDegreeList, sourceVertex, vertexList);
+
+			if(!joinedVertexList.contains(targetVertex))
+				joinedVertexList.add(targetVertex);
 		}
 
 		//When all vertices are connected we can choose freely
 		for (; addedEdgeCount < edgeCount - 2; addedEdgeCount++) {
 			sourceVertex = vertexList.get(vertexNumberIterator.nextInt());
-			if(unevenDegreeList.size() > 2){
-				targetVertex = unevenDegreeList.get(rNG.nextInt(unevenDegreeList.size()));
-			} else {
-				targetVertex = vertexList.get(vertexNumberIterator.nextInt());
-			}
-			graph.addEdge(sourceVertex, targetVertex);
-			updateDegreeList(unevenDegreeList, sourceVertex, targetVertex);
+			addEdgeToEulerGraph(rNG, vertexNumberIterator, graph, unevenDegreeList, sourceVertex, vertexList);
 		}
-		
+
 		switch(unevenDegreeList.size()){
-			case(0):
+			case(0): //The graph already is an eulergraph but we still need to insert 2 additional edges
+				Vertex randomVertex1 = vertexList.get(rNG.nextInt(vertexList.size()));
+				Vertex randomVertex2 = vertexList.get(rNG.nextInt(vertexList.size()));
+				graph.addEdge(randomVertex1, randomVertex2);
+				graph.addEdge(randomVertex2, randomVertex1);
 				break;
-			case(2):
+			case(2): //The graph is not an eulergraph but it contains an eulerpath, we only need to connect the loose ends via an intermediate
+				Vertex middleVertex = vertexList.get(rNG.nextInt(vertexList.size()));
+				graph.addEdge(unevenDegreeList.remove(0), middleVertex);
+				graph.addEdge(middleVertex, unevenDegreeList.remove(0));
 				break;
-			case(4):
+			case(4): //The graph has no eulerpath but all we need to do is connect the 4 lose ends to create an eulertour and therefore finish the eulergraph
+				graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
+				graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
 				break;
 			default: //Debug usage only, should be properly tested separately
 				throw new IllegalStateException("The generated graph didn't conform to its rules, the generation Implementation is faulty.");
 		}
-		
+	}
+
+	private Vertex addEdgeToEulerGraph(Random rNG, PrimitiveIterator.OfInt vertexNumberIterator, FlexibleGraph<Vertex, Edge> graph, 
+										List<Vertex> unevenDegreeList, Vertex sourceVertex, List<Vertex> vertexList){
+		Vertex targetVertex;
+		if(unevenDegreeList.size() > 2){
+			targetVertex = unevenDegreeList.get(rNG.nextInt(unevenDegreeList.size()));
+		} else {
+			targetVertex = vertexList.get(vertexNumberIterator.nextInt());
+		}
+		graph.addEdge(sourceVertex, targetVertex);
+		updateDegreeList(unevenDegreeList, sourceVertex, targetVertex);
+		return targetVertex;
 	}
 
 	/**
@@ -158,15 +169,17 @@ public class GraphGenerator {
 	 */
 	private void updateDegreeList(List<Vertex> unevenDegreeList, Vertex sourceVertex, Vertex targetVertex){
 		//TODO: the used collection is highly ineffective, maybe replace it or generate a set backed by the original list.
-		if (unevenDegreeList.contains(sourceVertex)) {
-			unevenDegreeList.remove(sourceVertex);
-		}else{
-			unevenDegreeList.add(sourceVertex);
-		}
-		if (unevenDegreeList.contains(targetVertex)) {
-			unevenDegreeList.remove(targetVertex);
-		}else{
-			unevenDegreeList.add(targetVertex);
+		if(!sourceVertex.equals(targetVertex)){
+			if (unevenDegreeList.contains(sourceVertex)) {
+				unevenDegreeList.remove(sourceVertex);
+			}else{
+				unevenDegreeList.add(sourceVertex);
+			}
+			if (unevenDegreeList.contains(targetVertex)) {
+				unevenDegreeList.remove(targetVertex);
+			}else{
+				unevenDegreeList.add(targetVertex);
+			}
 		}
 	}
 }

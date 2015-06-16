@@ -24,6 +24,7 @@ public class GraphGenerator_T {
 	private static final int EDGE_COUNT = 15;
 	private static final int EDGE_WEIGHT_LIMIT = 10;
 	private FlexibleGraph<Vertex, Edge> _graph;
+	private FlexibleGraph<Vertex, Edge> _eulerGraph;
 	private ShortestPathAlgorithm<Vertex, Edge> _aStarShortestPath;
 	private ShortestPathAlgorithm<Vertex, Edge> _dijkstraShortestPath;
 
@@ -32,6 +33,7 @@ public class GraphGenerator_T {
 	public void setUp(){
 		GraphGenerator generator = new GraphGenerator();
 		_graph = generator.generateDirectedWeightedGraph(Edge.class, VERTEX_COUNT, EDGE_COUNT, EDGE_WEIGHT_LIMIT);
+		_eulerGraph = generator.generateEulerGraph(Edge.class, VERTEX_COUNT, EDGE_COUNT);
 		_dijkstraShortestPath = new DijkstraShortestPath<>();
 		_aStarShortestPath = new AStarShortestPath<>();
 	}
@@ -41,7 +43,7 @@ public class GraphGenerator_T {
 		assertEquals(_graph.vertexSet().size(),VERTEX_COUNT);
 		assertEquals(_graph.edgeSet().size(),EDGE_COUNT);
 	}
-	
+
 	@Test
 	public void DijkstraPerfectHeuristicGeneratorTest(){
 		WeightedGraphTools<Vertex, Edge> graphTool = new WeightedGraphTools<>();
@@ -69,5 +71,18 @@ public class GraphGenerator_T {
 
 			assert(AStarDistance == vertex.getAttribute() || Double.isInfinite(vertex.getAttribute()));
 		}
+	}
+	
+	@Test
+	public void EulerGraphGeneratorTest(){
+		assert(_eulerGraph != null);
+		assert(_eulerGraph.vertexSet().size() == VERTEX_COUNT);
+		assert(_eulerGraph.edgeSet().size() == EDGE_COUNT);
+		Set<Vertex> vertexSet = _eulerGraph.vertexSet();
+		for (Vertex vertex : vertexSet) {
+			assert((_eulerGraph.edgesOf(vertex).size() % 2) == 0);
+		}
+
+		
 	}
 }

@@ -48,7 +48,7 @@ public class EulerTourAlgorithmTest {
 	private void initializeGraphs() {
 		_parser = new GraphParser();
 		try {
-			_path = new File(".").getCanonicalPath() + "\\graphs\\junitTestGraphs\\";
+			_path = new File(".").getCanonicalPath() + "\\graphs\\junitTestGraphs\\eulerTourTestGraphs";
 		} catch (IOException e) {
 		}
 		try {

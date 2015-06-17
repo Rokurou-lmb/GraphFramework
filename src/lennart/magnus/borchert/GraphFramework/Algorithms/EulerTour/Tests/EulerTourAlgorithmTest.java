@@ -39,7 +39,7 @@ public class EulerTourAlgorithmTest {
 		initializeGraphs();
 		_generator = new GraphGenerator();
 		_algorithmList = new ArrayList<>();
-		_fleuryEulerCircle = new FleuryEulerTour<>();
+		_fleuryEulerCircle = new FleuryEulerTour<>(Edge.class);
 		_hierholzerEulerCircle = new HierholzerEulerTour<>();
 
 		_algorithmList.add(_fleuryEulerCircle);

@@ -21,8 +21,6 @@ public class GraphParser_T {
 	private String _path;
 
 	private FlexibleGraph<Vertex, Edge> _graph1;
-	
-	
 
 
 	@Before
@@ -30,15 +28,11 @@ public class GraphParser_T {
 		try {
 			_path = new File(".").getCanonicalPath()+"\\graphs\\junitTestGraphs\\junittest.graph";
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		GraphParser parser = new GraphParser();
 		try {
 			_graph1 = parser.parse(_path);
 		} catch (FileFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	

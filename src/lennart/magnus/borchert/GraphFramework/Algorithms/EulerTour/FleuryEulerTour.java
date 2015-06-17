@@ -28,13 +28,13 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 		}
 
 		Vertex w0 = (Vertex) graph.vertexSet().iterator().next();
-		List<Edge> marked = new LinkedList<>();
+		List<E> marked = new LinkedList<>();
 
 		ShortestPathAlgorithm bfs = new BreadthFirstSearchShortestPath<>();
 
 		while (marked.size() < graph.edgeSet().size()){
 			//get an edge candidate
-			Edge candidate = getEdgeCandidate(eulerGraph,w0,bfs);
+			E candidate = getEdgeCandidate(eulerGraph,w0,bfs);
 			if(candidate != null && ((FlexibleGraph) graph).getOutgoingEdges(w0).size()%2==0){
 				marked.add(candidate);
 				if (w0.getIdentifier().equals(((Vertex)graph.getEdgeTarget(candidate)).getIdentifier())) {
@@ -43,11 +43,11 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 					w0 = (Vertex) graph.getEdgeTarget(candidate);
 				}
 			}else {
-				GraphPathImpl<V,E> path = new GraphPathImpl<>(graph,null,null,new ArrayList<>(),0);
+				GraphPathImpl<V,E> path = new GraphPathImpl<V,E>(graph,null,null,new ArrayList<>(),0);
 				return path;
 			}
 		}
-		GraphPathImpl<V,E> path = new GraphPathImpl<>(graph,null,null,marked,0);
+		GraphPathImpl<V,E> path = new GraphPathImpl<V,E>(graph,null,null,marked,0);
 		return path;
 	}
 
@@ -58,11 +58,11 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 	 * @param spa the algorithm we are using to test for bridge
 	 * @return <code>Edge</code> if there is one <code>null</code> if there is none
 	 */
-	private Edge getEdgeCandidate(Graph graph,Vertex w0, ShortestPathAlgorithm spa){
-		Iterator<Edge> edgeIterator = ((FlexibleGraph) graph).getOutgoingEdges(w0).iterator();
+	private E getEdgeCandidate(Graph graph,Vertex w0, ShortestPathAlgorithm spa){
+		Iterator<E> edgeIterator = ((FlexibleGraph) graph).getOutgoingEdges(w0).iterator();
 		Vertex candidateS;
 		Vertex candidateT;
-		Edge candidate = null;
+		E candidate = null;
 		while (edgeIterator.hasNext()){
 			candidate = edgeIterator.next();
 			candidateS = (Vertex) graph.getEdgeSource(candidate);

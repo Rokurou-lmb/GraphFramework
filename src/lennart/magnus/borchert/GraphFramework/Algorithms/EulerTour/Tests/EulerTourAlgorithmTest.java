@@ -15,6 +15,7 @@ import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 import lennart.magnus.borchert.GraphFramework.Tools.GraphGenerator;
 
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,21 +78,33 @@ public class EulerTourAlgorithmTest {
 	}
 
 	@Test
-	public void testGeneratedEulerTour() {
+	public void testGeneratedEulerTourGraphs() {
 		for (EulerTourAlgorithm<Vertex, Edge> eulerCircleAlgorithm : _algorithmList) {
-			for (int i = 0; i < 20; i++) {
-				Graph<Vertex, Edge> generatedEulerGraph = _generator.generateEulerGraph(Edge.class, 0, 0);
-				assert(eulerCircleAlgorithm.findEulerCircle(generatedEulerGraph).getEdgeList().containsAll(generatedEulerGraph.edgeSet()));
+			for (int i = 1; i < 20; i++) {
+				Graph<Vertex, Edge> generatedEulerGraph = _generator.generateEulerGraph(Edge.class, i, i+2);
+				GraphPath<Vertex, Edge> graphPath = eulerCircleAlgorithm.findEulerCircle(generatedEulerGraph);
+				assert(graphPath.getEdgeList().containsAll(generatedEulerGraph.edgeSet()));
+				Vertex startVertex = graphPath.getStartVertex();
+				Vertex currentVertex = startVertex;
+				for(Edge edge : graphPath.getEdgeList()){
+					assert(generatedEulerGraph.getEdgeTarget(edge).equals(currentVertex) || generatedEulerGraph.getEdgeSource(edge).equals(currentVertex));
+					currentVertex = getOtherVertexTouchedByEdge(generatedEulerGraph, edge, currentVertex);
+				}
+				assert(currentVertex.equals(startVertex));
 			}
 		}
 	}
-	// @Test
-	// public void FleuryEulerCircleTest() {
-	// 		fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void HierholzerEulerCircleTest() {
-	// 		fail("Not yet implemented");
-	// }
+	
+	private Vertex getOtherVertexTouchedByEdge(Graph<Vertex, Edge> graph, Edge edge, Vertex vertex){
+		return (graph.getEdgeTarget(edge).equals(vertex)) ? graph.getEdgeSource(edge) : graph.getEdgeTarget(edge);
+	}
+//	 @Test
+//	 public void FleuryEulerCircleTest() {
+//	 		fail("Not yet implemented");
+//	 }
+//
+//	 @Test
+//	 public void HierholzerEulerCircleTest() {
+//		 fail("Not yet implemented");
+//	 }
 }

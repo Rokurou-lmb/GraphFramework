@@ -44,10 +44,10 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 					w0 = _graph.getEdgeTarget(candidate);
 				}
 			}else {
-				return new GraphPathImpl<V,E>(graph,null,null,new ArrayList<>(),0);
+				return new GraphPathImpl<V,E>(graph,(V)w0,(V)w0,new ArrayList<>(),0);
 			}
 		}
-		return new GraphPathImpl<V,E>(graph,null,null,marked,0);
+		return new GraphPathImpl<V,E>(graph,(V)w0,(V)w0,marked,0);
 	}
 
 	/**

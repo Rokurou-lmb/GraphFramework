@@ -42,10 +42,13 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 				}else if (w0.getIdentifier().equals(((Vertex) graph.getEdgeSource(candidate)).getIdentifier())){
 					w0 = (Vertex) graph.getEdgeTarget(candidate);
 				}
-			}else return new GraphPathImpl<>(graph,null,null,new ArrayList<>(),0);
+			}else {
+				GraphPathImpl<V,E> path = new GraphPathImpl<>(graph,null,null,new ArrayList<>(),0);
+				return path;
+			}
 		}
-
-		return new GraphPathImpl<>(graph,null,null,marked,0);
+		GraphPathImpl<V,E> path = new GraphPathImpl<>(graph,null,null,marked,0);
+		return path;
 	}
 
 	/**

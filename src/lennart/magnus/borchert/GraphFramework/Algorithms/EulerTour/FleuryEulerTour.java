@@ -1,36 +1,34 @@
 package lennart.magnus.borchert.GraphFramework.Algorithms.EulerTour;
 
-import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.BreadthFirstSearchShortestPath;
-import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.ShortestPathAlgorithm;
-import lennart.magnus.borchert.GraphFramework.Materials.Edge;
-import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
-import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
-import org.jgrapht.Graph;
-import org.jgrapht.graph.GraphPathImpl;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
+import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.BreadthFirstSearchShortestPath;
+import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.ShortestPathAlgorithm;
+import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
+import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
+
+import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.graph.GraphPathImpl;
+
 public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
+	private Class<? extends E> _edgeClass;
+	
+	public FleuryEulerTour(Class<? extends E> edgeClass){
+		_edgeClass = edgeClass;
+	}
 
 	@Override
-	public GraphPathImpl<V, E> findEulerCircle(Graph<V,E> graph) {
+	public GraphPath<V, E> findEulerCircle(Graph<V,E> graph) {
 
-		Graph<V,E> eulerGraph = new FlexibleGraph<V,E>(((FlexibleGraph)graph).isDirected(),((FlexibleGraph)graph).isWeighted(),Edge.class);
-		for(E e : graph.edgeSet()){
-			V s = graph.getEdgeSource(e);
-			eulerGraph.addVertex(s);
-			V t = graph.getEdgeTarget(e);
-			eulerGraph.addVertex(t);
-			eulerGraph.addEdge(s,t, e);
-		}
+		Graph<V, E> eulerGraph = new FlexibleGraph<>((FlexibleGraph)graph, _edgeClass);
 
 		V w0 = graph.vertexSet().iterator().next();
-		List<E> marked = new LinkedList<>();
+		List<E> marked = new ArrayList<>();
 
-		ShortestPathAlgorithm bfs = new BreadthFirstSearchShortestPath<>();
+		ShortestPathAlgorithm<V, E> bfs = new BreadthFirstSearchShortestPath<>();
 
 		while (marked.size() < graph.edgeSet().size()){
 			//get an edge candidate
@@ -56,7 +54,7 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 	 * @param spa the algorithm we are using to test for bridge
 	 * @return <code>Edge</code> if there is one <code>null</code> if there is none
 	 */
-	private E getEdgeCandidate(Graph<V,E> graph,V w0, ShortestPathAlgorithm spa){
+	private E getEdgeCandidate(Graph<V,E> graph,V w0, ShortestPathAlgorithm<V, E> spa){
 		Iterator<E> edgeIterator = ((FlexibleGraph<V,E>) graph).getOutgoingEdges(w0).iterator();
 		V candidateS;
 		V candidateT;

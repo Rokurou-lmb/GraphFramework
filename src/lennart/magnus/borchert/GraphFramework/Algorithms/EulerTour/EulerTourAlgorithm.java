@@ -1,7 +1,7 @@
 package lennart.magnus.borchert.GraphFramework.Algorithms.EulerTour;
 
 import org.jgrapht.Graph;
-import org.jgrapht.graph.GraphPathImpl;
+import org.jgrapht.GraphPath;
 
 /**
  * 
@@ -16,5 +16,5 @@ public interface EulerTourAlgorithm<V, E> {
 	 * 
 	 * @return
 	 */
-	public GraphPathImpl<V, E> findEulerCircle(Graph<V, E> graph);
+	public GraphPath<V, E> findEulerCircle(Graph<V, E> graph);
 }

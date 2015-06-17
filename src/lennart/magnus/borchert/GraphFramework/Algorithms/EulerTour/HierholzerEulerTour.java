@@ -24,7 +24,7 @@ public class HierholzerEulerTour<V, E> implements EulerTourAlgorithm<V, E> {
 	private double _eulerTourWeight;
 
 	@Override
-	public GraphPathImpl<V, E> findEulerCircle(Graph<V, E> graph) {
+	public GraphPath<V, E> findEulerCircle(Graph<V, E> graph) {
 		initilizeDataStructure(graph);
 		_startVertex = getNextSubCircleStartVertex();
 		V currentSubCircleStartVertex = _startVertex;

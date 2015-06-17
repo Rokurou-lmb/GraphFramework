@@ -41,7 +41,7 @@ public class GraphReader {
 			if ((line = br.readLine()) != null && line.matches(graphOptionsLine)) {
 				lines.add(line);
 			}
-			while (correctFormat && ((line = br.readLine()) != null)) {
+			do {
 				if (!line.matches("\\s*")) {
 					if (!line.matches(graphDefinitionLine)) {
 						correctFormat = false;
@@ -49,7 +49,7 @@ public class GraphReader {
 					line = line.replaceAll("\\s", "");
 					lines.add(line);
 				}
-			}
+			}while (correctFormat && ((line = br.readLine()) != null));
 		} catch (IOException e) {
 			System.out.println("Es gab leider einen Fehler beim lesen der Datei, bitte überprüfen sie den Dateipfad.");
 			e.printStackTrace();

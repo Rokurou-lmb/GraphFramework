@@ -7,7 +7,6 @@ import java.util.List;
 import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.BreadthFirstSearchShortestPath;
 import lennart.magnus.borchert.GraphFramework.Algorithms.ShortestPath.ShortestPathAlgorithm;
 import lennart.magnus.borchert.GraphFramework.Materials.FlexibleGraph;
-import lennart.magnus.borchert.GraphFramework.Materials.Vertex;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -23,7 +22,7 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 	@Override
 	public GraphPath<V, E> findEulerCircle(Graph<V,E> graph) {
 
-		Graph<V, E> eulerGraph = new FlexibleGraph<>((FlexibleGraph)graph, _edgeClass);
+		Graph<V, E> eulerGraph = new FlexibleGraph<>((FlexibleGraph<V,E>)graph, _edgeClass);
 
 		V w0 = graph.vertexSet().iterator().next();
 		List<E> marked = new ArrayList<>();
@@ -33,11 +32,11 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 		while (marked.size() < graph.edgeSet().size()){
 			//get an edge candidate
 			E candidate = getEdgeCandidate(eulerGraph,w0,bfs);
-			if(candidate != null && ((FlexibleGraph<V,E>) graph).getOutgoingEdges(w0).size()%2==0){
+			if(candidate != null && graph.edgesOf(w0).size()%2==0){
 				marked.add(candidate);
-				if (((Vertex)w0).getIdentifier().equals(((Vertex)(graph.getEdgeTarget(candidate))).getIdentifier())) {
+				if (w0.equals(graph.getEdgeTarget(candidate))) {
 					w0 = graph.getEdgeSource(candidate);
-				}else if (((Vertex)w0).getIdentifier().equals((((Vertex) graph.getEdgeSource(candidate))).getIdentifier())){
+				}else if (w0.equals(graph.getEdgeSource(candidate))){
 					w0 = graph.getEdgeTarget(candidate);
 				}
 			}else {
@@ -55,7 +54,7 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 	 * @return <code>Edge</code> if there is one <code>null</code> if there is none
 	 */
 	private E getEdgeCandidate(Graph<V,E> graph,V w0, ShortestPathAlgorithm<V, E> spa){
-		Iterator<E> edgeIterator = ((FlexibleGraph<V,E>) graph).getOutgoingEdges(w0).iterator();
+		Iterator<E> edgeIterator = graph.edgesOf(w0).iterator();
 		V candidateS;
 		V candidateT;
 		E candidate = null;

@@ -108,7 +108,7 @@ public class GraphGenerator {
 			List<Vertex> unevenDegreeList = new ArrayList<>();
 			List<Vertex> joinedVertexList = new ArrayList<>();
 
-			joinedVertexList.add(new Vertex("0")); //This isn't completly unprejudiced
+			joinedVertexList.add(vertexList.get(rNG.nextInt(vertexList.size())));
 
 			Vertex sourceVertex;
 
@@ -131,23 +131,29 @@ public class GraphGenerator {
 			}
 
 			Vertex randomVertex;
-			switch(unevenDegreeList.size()){
-				case(0): //The graph already is an eulergraph but we still need to insert 2 additional edges
-					randomVertex = joinedVertexList.get(rNG.nextInt(joinedVertexList.size()));
-					graph.addEdge(randomVertex, randomVertex);
-					graph.addEdge(randomVertex, randomVertex);
-					break;
-				case(2): //The graph is not an eulergraph but it contains an eulerpath, we only need to connect the loose ends and add a loop
-					randomVertex = joinedVertexList.get(rNG.nextInt(joinedVertexList.size()));
-					graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
-					graph.addEdge(randomVertex, randomVertex);
-					break;
-				case(4): //The graph has no eulerpath but all we need to do is connect the 4 lose ends to create an eulertour and therefore finish the eulergraph
-					graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
-					graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
-					break;
-				default: //Debug usage only, should be properly tested separately
-					throw new IllegalStateException("The generated graph didn't conform to its rules, the generation Implementation is faulty.");
+			if(edgeCount > 1){
+				switch(unevenDegreeList.size()){
+					case(0): //The graph already is an eulergraph but we still need to insert 2 additional edges
+						randomVertex = joinedVertexList.get(rNG.nextInt(joinedVertexList.size()));
+						graph.addEdge(randomVertex, randomVertex);
+						graph.addEdge(randomVertex, randomVertex);
+						break;
+					case(2): //The graph is not an eulergraph but it contains an eulerpath, we only need to connect the loose ends and add a loop
+						randomVertex = joinedVertexList.get(rNG.nextInt(joinedVertexList.size()));
+						graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
+						graph.addEdge(randomVertex, randomVertex);
+						break;
+					case(4): //The graph has no eulerpath but all we need to do is connect the 4 lose ends to create an eulertour and therefore finish the eulergraph
+						graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
+						graph.addEdge(unevenDegreeList.remove(0), unevenDegreeList.remove(0));
+						break;
+					default: //Debug usage only, should be properly tested separately
+						throw new IllegalStateException("The generated graph didn't conform to its rules, the generation Implementation is faulty.");
+				}
+			}else{
+				randomVertex = joinedVertexList.get(rNG.nextInt(joinedVertexList.size()));
+				graph.addEdge(randomVertex, randomVertex);
+				graph.addEdge(randomVertex, randomVertex);
 			}
 		}
 	}

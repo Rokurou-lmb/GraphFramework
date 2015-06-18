@@ -22,7 +22,7 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 	@Override
 	public GraphPath<V, E> findEulerCircle(Graph<V,E> graph) {
 
-		Graph<V, E> eulerGraph = new FlexibleGraph<>((FlexibleGraph<V,E>)graph, _edgeClass);
+		Graph<V, E> workingGraph = new FlexibleGraph<>((FlexibleGraph<V,E>)graph, _edgeClass);
 
 		V w0 = graph.vertexSet().iterator().next();
 		List<E> marked = new ArrayList<>();
@@ -31,7 +31,7 @@ public class FleuryEulerTour<V, E> implements EulerTourAlgorithm<V, E>{
 
 		while (marked.size() < graph.edgeSet().size()){
 			//get an edge candidate
-			E candidate = getEdgeCandidate(eulerGraph,w0,bfs);
+			E candidate = getEdgeCandidate(workingGraph,w0,bfs);
 			if(candidate != null && graph.edgesOf(w0).size()%2==0){
 				marked.add(candidate);
 				if (w0.equals(graph.getEdgeTarget(candidate))) {

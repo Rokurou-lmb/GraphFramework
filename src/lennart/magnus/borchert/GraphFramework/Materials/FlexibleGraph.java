@@ -21,6 +21,20 @@ public class FlexibleGraph<V, E> extends DirectedWeightedPseudograph<V, E> imple
 		_directed = directed;
 		_weighted = weighted;
 	}
+	
+	public FlexibleGraph(FlexibleGraph<V, E> graph, Class<? extends E> edgeClass){
+		super(edgeClass);
+		_directed = graph.isDirected();
+		_weighted = graph.isWeighted();
+		for (V vertex : graph.vertexSet()) {
+			addVertex(vertex);
+		}
+		for (E edge : graph.edgeSet()) {
+			addEdge(graph.getEdgeSource(edge), graph.getEdgeTarget(edge), edge);
+			graph.setEdgeWeight(edge, graph.getEdgeWeight(edge));
+		}
+
+	}
 
 	@Override
 	public E getEdge(V sourceVertex, V targetVertex) {
